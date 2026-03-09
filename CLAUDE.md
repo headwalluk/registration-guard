@@ -198,13 +198,14 @@ Format: `type: brief description` where type is one of: `feat:`, `fix:`, `chore:
         <property name="prefixes" type="array">
             <element value="registration_guard"/>
             <element value="regguard"/>
-            <element value="rg"/>
             <element value="Registration_Guard"/>
             <element value="REGISTRATION_GUARD"/>
         </property>
     </properties>
 </rule>
 ```
+
+Note: `rg_` is NOT a valid phpcs prefix (too short). Use `regguard_` or `registration_guard_` for function/variable prefixes. The `rg_` prefix is used for internal identifiers (transient keys, meta keys, cron hooks) which are string values, not PHP symbols checked by phpcs.
 
 ## Key Decisions
 
