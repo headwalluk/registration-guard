@@ -1,0 +1,360 @@
+# Copyright (C) 2026 Paul Faulkner
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Language: el_GR\n"
+"Project-Id-Version: Registration Guard 0.6.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/registration-guard\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-03-09T17:51:11+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: registration-guard\n"
+
+#. Plugin Name of the plugin
+#: registration-guard.php
+#: includes/class-settings.php:32
+msgid "Registration Guard"
+msgstr "Φρουρός Εγγραφής"
+
+#. Plugin URI of the plugin
+#: registration-guard.php
+msgid "https://github.com/headwalluk/registration-guard"
+msgstr "https://github.com/headwalluk/registration-guard"
+
+#. Description of the plugin
+#: registration-guard.php
+msgid "Lightweight bot registration protection for WordPress and WooCommerce. Three layered defences with zero configuration required."
+msgstr "Ελαφριά προστασία εγγραφής bot για WordPress και WooCommerce. Τρία επίπεδα άμυνας χωρίς να απαιτείται καμία ρύθμιση."
+
+#. Author of the plugin
+#: registration-guard.php
+msgid "Paul Faulkner"
+msgstr "Πολ Φόλκνερ"
+
+#. Author URI of the plugin
+#: registration-guard.php
+msgid "https://power-plugins.com"
+msgstr "https://power-plugins.com"
+
+#. translators: %s: user email
+#: includes/class-account-cleanup.php:74
+#, php-format
+msgid "Unverified account deleted: %s"
+msgstr "Μη επαληθευμένος λογαριασμός διαγράφηκε: %s"
+
+#: includes/class-email-verification.php:64
+msgid "Verification email sent to new user."
+msgstr "Επαληθευτικό email αποσταλεί σε νέο χρήστη."
+
+#: includes/class-email-verification.php:87
+msgid "Invalid verification link."
+msgstr "Μη έγκυρος σύνδεσμος επαλήθευσης."
+
+#: includes/class-email-verification.php:88
+#: includes/class-email-verification.php:101
+msgid "Verification Failed"
+msgstr "Η επαλήθευση απέτυχε"
+
+#: includes/class-email-verification.php:100
+msgid "This verification link is invalid or has expired."
+msgstr "Αυτός ο σύνδεσμος επαλήθευσης δεν είναι έγκυρος ή έχει λήξει."
+
+#: includes/class-email-verification.php:113
+msgid "Email address verified successfully."
+msgstr "Η διεύθυνση email επαληθεύτηκε με επιτυχία."
+
+#: includes/class-email-verification.php:165
+#: includes/class-email-verification.php:176
+#: integrations/class-integration-woocommerce.php:208
+#: integrations/class-integration-woocommerce.php:219
+msgid "Email Verification Required"
+msgstr "Απαιτείται επαλήθευση email"
+
+#: includes/class-email-verification.php:166
+msgid "You must verify your email address before accessing this site. Please check your inbox for the verification email."
+msgstr "Πρέπει να επαληθεύσετε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας πριν αποκτήσετε πρόσβαση σε αυτόν τον ιστότοπο. Ελέγξτε το φάκελο εισερχομένων σας για το email επαλήθευσης."
+
+#: includes/class-email-verification.php:167
+#: integrations/class-integration-woocommerce.php:210
+msgid "If you cannot find the email, check your spam or junk folder."
+msgstr "Εάν δεν μπορείτε να βρείτε το email, ελέγξτε το φάκελο spam ή junk."
+
+#: includes/class-email-verification.php:169
+#: integrations/class-integration-woocommerce.php:212
+msgid "Resend verification email"
+msgstr "Επανάληψη αποστολής email επαλήθευσης"
+
+#: includes/class-email-verification.php:171
+#: integrations/class-integration-woocommerce.php:214
+msgid "Log out"
+msgstr "Αποσύνδεση"
+
+#: includes/class-email-verification.php:192
+msgid "Invalid request."
+msgstr "Μη έγκυρη αίτηση."
+
+#: includes/class-email-verification.php:193
+msgid "Error"
+msgstr "Σφάλμα"
+
+#: includes/class-email-verification.php:201
+msgid "This account is already verified."
+msgstr "Αυτός ο λογαριασμός έχει ήδη επαληθευτεί."
+
+#: includes/class-email-verification.php:202
+msgid "Already Verified"
+msgstr "Ήδη επαληθευμένο"
+
+#: includes/class-email-verification.php:210
+msgid "Please wait before requesting another verification email."
+msgstr "Παρακαλώ περιμένετε πριν ζητήσετε άλλο email επαλήθευσης."
+
+#: includes/class-email-verification.php:211
+msgid "Please Wait"
+msgstr "Παρακαλώ περιμένετε"
+
+#: includes/class-email-verification.php:228
+msgid "Verification email resent by user request."
+msgstr "Επαναποστολή email επαλήθευσης κατόπιν αιτήματος του χρήστη."
+
+#: includes/class-email-verification.php:232
+msgid "A new verification email has been sent. Please check your inbox."
+msgstr "Έχει σταλεί ένα νέο email επαλήθευσης. Ελέγξτε το inbox σας."
+
+#: includes/class-email-verification.php:233
+msgid "Email Sent"
+msgstr "Αποστολή email"
+
+#. translators: %s: site name
+#: includes/class-email-verification.php:323
+#, php-format
+msgid "[%s] Please verify your email address"
+msgstr "[%s] Επαληθεύστε τη διεύθυνση ηλεκτρονικού ταχυδρομείου σας"
+
+#: includes/class-geo-restriction.php:47
+msgid "<strong>Error:</strong> Registration is not available from your location."
+msgstr "<strong>Σφάλμα:</strong> Η εγγραφή δεν είναι διαθέσιμη από την τοποθεσία σας."
+
+#. translators: %s: detected country code or "unknown"
+#: includes/class-geo-restriction.php:55
+#, php-format
+msgid "Registration blocked by geo-restriction. Country: %s"
+msgstr "Η εγγραφή έχει αποκλειστεί λόγω γεωγραφικών περιορισμών. Χώρα: %s"
+
+#: includes/class-nonce-challenge.php:140
+msgid "Invalid referer."
+msgstr "Μη έγκυρη παραπομπή."
+
+#: includes/class-nonce-challenge.php:145
+msgid "Rate limit exceeded."
+msgstr "Υπέρβαση ορίου τιμών."
+
+#: includes/class-nonce-challenge.php:186
+#: integrations/class-integration-woocommerce.php:160
+msgid "<strong>Error:</strong> Security verification failed. Please reload the page and try again."
+msgstr "<strong>Σφάλμα:</strong> Η επαλήθευση ασφαλείας απέτυχε. Επαναφορτώστε τη σελίδα και δοκιμάστε ξανά."
+
+#: includes/class-nonce-challenge.php:192
+msgid "Registration blocked: nonce challenge failed."
+msgstr "Η εγγραφή αποκλείστηκε: η δοκιμασία nonce απέτυχε."
+
+#: includes/class-plugin.php:199
+msgid "Registration Guard:"
+msgstr "Φρουρός εγγραφής:"
+
+#: includes/class-plugin.php:200
+msgid "Geo-restriction is enabled but no geo-IP provider is active. Install a plugin that provides IP geolocation (e.g. WooCommerce) or disable geo-restriction."
+msgstr "Η γεωγραφική περιορισμός είναι ενεργοποιημένη, αλλά δεν υπάρχει ενεργός πάροχος γεωγραφικής IP. Εγκαταστήστε ένα πρόσθετο που παρέχει γεωγραφική τοποθεσία IP (π.χ. WooCommerce) ή απενεργοποιήστε τον γεωγραφικό περιορισμό."
+
+#: includes/class-settings.php:31
+msgid "Registration Guard Settings"
+msgstr "Ρυθμίσεις φρουρού εγγραφής"
+
+#: includes/class-settings.php:52
+msgid "JavaScript Nonce Challenge"
+msgstr "JavaScript Nonce Challenge"
+
+#: includes/class-settings.php:69
+msgid "Enable Nonce Challenge"
+msgstr "Ενεργοποίηση πρόκλησης Nonce"
+
+#: includes/class-settings.php:87
+msgid "Minimum Delay (seconds)"
+msgstr "Ελάχιστη καθυστέρηση (δευτερόλεπτα)"
+
+#: includes/class-settings.php:99
+msgid "Email Double Opt-In"
+msgstr "Διπλή επιβεβαίωση μέσω email"
+
+#: includes/class-settings.php:116
+msgid "Enable Double Opt-In"
+msgstr "Ενεργοποίηση διπλής επιβεβαίωσης"
+
+#: includes/class-settings.php:134
+msgid "Verification Window (hours)"
+msgstr "Παράθυρο επαλήθευσης (ώρες)"
+
+#: includes/class-settings.php:152
+msgid "Resend Cooldown (seconds)"
+msgstr "Χρόνος αναμονής επαναποστολής (δευτερόλεπτα)"
+
+#: includes/class-settings.php:164
+msgid "Geo-Restriction"
+msgstr "Γεωγραφικός περιορισμός"
+
+#: includes/class-settings.php:185
+msgid "Enable Geo-Restriction"
+msgstr "Ενεργοποίηση γεωγραφικού περιορισμού"
+
+#: includes/class-settings.php:203
+msgid "Mode"
+msgstr "Μόδα"
+
+#: includes/class-settings.php:221
+msgid "Country Codes"
+msgstr "Κωδικοί χωρών"
+
+#: includes/class-settings.php:239
+msgid "If Geolocation Fails"
+msgstr "Εάν η γεωγραφική τοποθεσία αποτύχει"
+
+#: includes/class-settings.php:258
+msgid "Blocks bots that POST directly to the registration handler without loading the page."
+msgstr "Αποκλείει τα bots που στέλνουν POST απευθείας στον χειριστή εγγραφής χωρίς να φορτώνουν τη σελίδα."
+
+#: includes/class-settings.php:270
+msgid "Requires new registrations to verify their email address. Unverified accounts are automatically deleted."
+msgstr "Απαιτεί από τους νέους χρήστες να επαληθεύσουν τη διεύθυνση ηλεκτρονικού ταχυδρομείου τους. Οι μη επαληθευμένοι λογαριασμοί διαγράφονται αυτόματα."
+
+#: includes/class-settings.php:283
+msgid "Geo-restriction is not available. No geo-IP provider is currently active."
+msgstr "Η γεωγραφική περιορισμός δεν είναι διαθέσιμη. Κανένας πάροχος γεωγραφικής IP δεν είναι ενεργός αυτή τη στιγμή."
+
+#: includes/class-settings.php:284
+msgid "To enable this feature, install a plugin that provides IP geolocation, such as WooCommerce."
+msgstr "Για να ενεργοποιήσετε αυτή τη λειτουργία, εγκαταστήστε ένα πρόσθετο που παρέχει γεωγραφική τοποθεσία IP, όπως το WooCommerce."
+
+#: includes/class-settings.php:291
+msgid "Restrict registration by country using IP geolocation."
+msgstr "Περιορίστε την εγγραφή ανά χώρα χρησιμοποιώντας τη γεωγραφική τοποθεσία IP."
+
+#: includes/class-settings.php:311
+msgid "Require a JavaScript nonce for registration form submissions"
+msgstr "Απαιτείται JavaScript nonce για την υποβολή της φόρμας εγγραφής"
+
+#: includes/class-settings.php:329
+msgid "Seconds to wait after page load before the nonce can be fetched (1-10)."
+msgstr "Δευτερόλεπτα αναμονής μετά τη φόρτωση της σελίδας πριν από τη λήψη του nonce (1-10)."
+
+#: includes/class-settings.php:345
+msgid "Require email verification for new registrations"
+msgstr "Απαιτείται επαλήθευση μέσω email για νέες εγγραφές"
+
+#: includes/class-settings.php:362
+msgid "Hours before unverified accounts are automatically deleted (1-72)."
+msgstr "Ώρες πριν από την αυτόματη διαγραφή των μη επαληθευμένων λογαριασμών (1-72)."
+
+#: includes/class-settings.php:380
+msgid "Minimum seconds between verification email resends per user (60-3600)."
+msgstr "Ελάχιστος χρόνος σε δευτερόλεπτα μεταξύ των επαναληπτικών αποστολών email επαλήθευσης ανά χρήστη (60-3600)."
+
+#: includes/class-settings.php:398
+msgid "Restrict registration by country"
+msgstr "Περιορισμός εγγραφής ανά χώρα"
+
+#: includes/class-settings.php:415
+msgid "Allowlist — only allow listed countries"
+msgstr "Λίστα επιτρεπόμενων χωρών — επιτρέπονται μόνο οι χώρες που περιλαμβάνονται στη λίστα"
+
+#: includes/class-settings.php:418
+msgid "Blocklist — block listed countries"
+msgstr "Λίστα αποκλεισμένων — χώρες που περιλαμβάνονται στη λίστα αποκλεισμένων"
+
+#: includes/class-settings.php:435
+msgid "Comma-separated ISO 3166-1 alpha-2 country codes (e.g. GB,US,FR,DE)."
+msgstr "Κωδικοί χωρών ISO 3166-1 alpha-2 διαχωρισμένοι με κόμμα (π.χ. GB, US, FR, DE)."
+
+#: includes/class-settings.php:452
+msgid "Block registration"
+msgstr "Εγγραφή μπλοκ"
+
+#: includes/class-settings.php:455
+msgid "Allow registration"
+msgstr "Επιτρέψτε την εγγραφή"
+
+#: includes/class-settings.php:456
+msgid "Action to take when the visitor's country cannot be determined."
+msgstr "Ενέργειες που πρέπει να γίνουν όταν δεν είναι δυνατόν να προσδιοριστεί η χώρα του επισκέπτη."
+
+#: includes/class-settings.php:612
+msgid "Settings"
+msgstr "Ρυθμίσεις"
+
+#: includes/class-settings.php:616
+msgid "Event Log"
+msgstr "Αρχείο συμβάντων"
+
+#: includes/class-settings.php:674
+msgid "No log entries found."
+msgstr "Δεν βρέθηκαν καταχωρήσεις στο αρχείο καταγραφής."
+
+#: includes/class-settings.php:681
+msgid "Date"
+msgstr "Δεδομένα"
+
+#: includes/class-settings.php:682
+msgid "Event"
+msgstr "Εκδήλωση"
+
+#: includes/class-settings.php:683
+msgid "User ID"
+msgstr "Αναγνωριστικό χρήστη"
+
+#: includes/class-settings.php:684
+msgid "Message"
+msgstr "Μήνυμα"
+
+#: includes/class-settings.php:685
+msgid "IP Address"
+msgstr "Διεύθυνση IP"
+
+#: integrations/class-integration-woocommerce.php:166
+msgid "WooCommerce registration blocked: nonce challenge failed."
+msgstr "Η εγγραφή στο WooCommerce αποκλείστηκε: η πρόκληση nonce απέτυχε."
+
+#: integrations/class-integration-woocommerce.php:209
+msgid "You must verify your email address before accessing your account. Please check your inbox for the verification email."
+msgstr "Πρέπει να επαληθεύσετε τη διεύθυνση email σας πριν αποκτήσετε πρόσβαση στον λογαριασμό σας. Ελέγξτε το φάκελο εισερχομένων σας για το email επαλήθευσης."
+
+#. translators: %s: site name
+#: views/emails/verification-email.php:23
+#, php-format
+msgid "Welcome to %s!"
+msgstr "Καλώς ήρθατε στο %s!"
+
+#. translators: %s: user display name
+#: views/emails/verification-email.php:29
+#, php-format
+msgid "Hi %s,"
+msgstr "Γεια σου %s,"
+
+#: views/emails/verification-email.php:33
+msgid "Please verify your email address by clicking the link below:"
+msgstr "Επαληθεύστε τη διεύθυνση email σας κάνοντας κλικ στον παρακάτω σύνδεσμο:"
+
+#. translators: %d: number of hours
+#: views/emails/verification-email.php:39
+#, php-format
+msgid "This link will expire in %d hours. If you did not register, you can safely ignore this email."
+msgstr "Αυτός ο σύνδεσμος θα λήξει σε %d ώρες. Εάν δεν έχετε εγγραφεί, μπορείτε να αγνοήσετε αυτό το email."
+
+#. translators: %s: site name
+#: views/emails/verification-email.php:47
+#, php-format
+msgid "This email was sent by %s."
+msgstr "Αυτό το email στάλθηκε από τον %s."

@@ -1,0 +1,6 @@
+.git
+.github
+.distignore
+dev-notes
+CLAUDE.md
+phpcs.xml

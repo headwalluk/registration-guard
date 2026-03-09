@@ -4,7 +4,7 @@ Tags: security, registration, anti-spam, bot-protection, woocommerce
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
-Stable tag: 0.6.0
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,6 +109,11 @@ Yes. Registration Guard provides a `registration_guard_skip_verification` filter
 
 == Changelog ==
 
+= 1.0.0 =
+* Stable release -- all features complete and tested
+* Translations: 8 language packs (DE, EL, EN_GB, ES, FR, IT, NL, PL)
+* GitHub Actions release workflow
+
 = 0.6.0 =
 * Integration architecture: WooCommerce moved to `integrations/` with `plugins_loaded` convention
 * Pluggable geo-IP provider model via `registration_guard_geolocate_ip` filter
@@ -153,6 +158,9 @@ Yes. Registration Guard provides a `registration_guard_skip_verification` filter
 * Project scaffolding and documentation
 
 == Upgrade Notice ==
+
+= 1.0.0 =
+First stable release with all three protection layers, WooCommerce integration, and pluggable geo-IP support.
 
 = 0.6.0 =
 Integration architecture, pluggable geo-IP providers, and single-email registration flow.

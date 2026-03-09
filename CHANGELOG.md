@@ -5,6 +5,15 @@ All notable changes to Registration Guard will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0] - 2026-03-09
+
+### Added
+- Translations: `.pot` file and 8 language packs (DE, EL, EN_GB, ES, FR, IT, NL, PL)
+- GitHub Actions release workflow with `.distignore`
+
+### Changed
+- Stable release — all features complete and tested
+
 ## [0.6.0] - 2026-03-09
 
 ### Added

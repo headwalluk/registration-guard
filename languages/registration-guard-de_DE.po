@@ -1,0 +1,360 @@
+# Copyright (C) 2026 Paul Faulkner
+# This file is distributed under the GPL v2 or later.
+msgid ""
+msgstr ""
+"Language: de_DE\n"
+"Project-Id-Version: Registration Guard 0.6.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/registration-guard\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-03-09T17:51:11+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: registration-guard\n"
+
+#. Plugin Name of the plugin
+#: registration-guard.php
+#: includes/class-settings.php:32
+msgid "Registration Guard"
+msgstr "Registrierungswächter"
+
+#. Plugin URI of the plugin
+#: registration-guard.php
+msgid "https://github.com/headwalluk/registration-guard"
+msgstr "https://github.com/headwalluk/registration-guard"
+
+#. Description of the plugin
+#: registration-guard.php
+msgid "Lightweight bot registration protection for WordPress and WooCommerce. Three layered defences with zero configuration required."
+msgstr "Leichter Bot-Registrierungsschutz für WordPress und WooCommerce. Dreistufiger Schutz ohne Konfigurationsaufwand."
+
+#. Author of the plugin
+#: registration-guard.php
+msgid "Paul Faulkner"
+msgstr "Paul Faulkner"
+
+#. Author URI of the plugin
+#: registration-guard.php
+msgid "https://power-plugins.com"
+msgstr "https://power-plugins.com"
+
+#. translators: %s: user email
+#: includes/class-account-cleanup.php:74
+#, php-format
+msgid "Unverified account deleted: %s"
+msgstr "Unverifiziertes Konto gelöscht: %s"
+
+#: includes/class-email-verification.php:64
+msgid "Verification email sent to new user."
+msgstr "Bestätigungs-E-Mail an neuen Benutzer gesendet."
+
+#: includes/class-email-verification.php:87
+msgid "Invalid verification link."
+msgstr "Ungültiger Bestätigungslink."
+
+#: includes/class-email-verification.php:88
+#: includes/class-email-verification.php:101
+msgid "Verification Failed"
+msgstr "Überprüfung fehlgeschlagen"
+
+#: includes/class-email-verification.php:100
+msgid "This verification link is invalid or has expired."
+msgstr "Dieser Bestätigungslink ist ungültig oder abgelaufen."
+
+#: includes/class-email-verification.php:113
+msgid "Email address verified successfully."
+msgstr "E-Mail-Adresse erfolgreich verifiziert."
+
+#: includes/class-email-verification.php:165
+#: includes/class-email-verification.php:176
+#: integrations/class-integration-woocommerce.php:208
+#: integrations/class-integration-woocommerce.php:219
+msgid "Email Verification Required"
+msgstr "E-Mail-Verifizierung erforderlich"
+
+#: includes/class-email-verification.php:166
+msgid "You must verify your email address before accessing this site. Please check your inbox for the verification email."
+msgstr "Sie müssen Ihre E-Mail-Adresse bestätigen, bevor Sie auf diese Website zugreifen können. Bitte überprüfen Sie Ihren Posteingang auf die Bestätigungs-E-Mail."
+
+#: includes/class-email-verification.php:167
+#: integrations/class-integration-woocommerce.php:210
+msgid "If you cannot find the email, check your spam or junk folder."
+msgstr "Wenn Sie die E-Mail nicht finden können, überprüfen Sie Ihren Spam- oder Junk-Ordner."
+
+#: includes/class-email-verification.php:169
+#: integrations/class-integration-woocommerce.php:212
+msgid "Resend verification email"
+msgstr "Bestätigungs-E-Mail erneut senden"
+
+#: includes/class-email-verification.php:171
+#: integrations/class-integration-woocommerce.php:214
+msgid "Log out"
+msgstr "Abmelden"
+
+#: includes/class-email-verification.php:192
+msgid "Invalid request."
+msgstr "Ungültige Anfrage."
+
+#: includes/class-email-verification.php:193
+msgid "Error"
+msgstr "Fehler"
+
+#: includes/class-email-verification.php:201
+msgid "This account is already verified."
+msgstr "Dieses Konto ist bereits verifiziert."
+
+#: includes/class-email-verification.php:202
+msgid "Already Verified"
+msgstr "Bereits verifiziert"
+
+#: includes/class-email-verification.php:210
+msgid "Please wait before requesting another verification email."
+msgstr "Bitte warten Sie, bevor Sie eine weitere Bestätigungs-E-Mail anfordern."
+
+#: includes/class-email-verification.php:211
+msgid "Please Wait"
+msgstr "Bitte warten"
+
+#: includes/class-email-verification.php:228
+msgid "Verification email resent by user request."
+msgstr "Bestätigungs-E-Mail auf Wunsch des Benutzers erneut gesendet."
+
+#: includes/class-email-verification.php:232
+msgid "A new verification email has been sent. Please check your inbox."
+msgstr "Eine neue Bestätigungs-E-Mail wurde versendet. Bitte überprüfen Sie Ihren Posteingang."
+
+#: includes/class-email-verification.php:233
+msgid "Email Sent"
+msgstr "E-Mail gesendet"
+
+#. translators: %s: site name
+#: includes/class-email-verification.php:323
+#, php-format
+msgid "[%s] Please verify your email address"
+msgstr "[%s] Bitte bestätigen Sie Ihre E-Mail-Adresse."
+
+#: includes/class-geo-restriction.php:47
+msgid "<strong>Error:</strong> Registration is not available from your location."
+msgstr "<strong>Fehler:</strong> Die Registrierung ist von Ihrem Standort aus nicht verfügbar."
+
+#. translators: %s: detected country code or "unknown"
+#: includes/class-geo-restriction.php:55
+#, php-format
+msgid "Registration blocked by geo-restriction. Country: %s"
+msgstr "Registrierung aufgrund geografischer Beschränkungen gesperrt. Land: %s"
+
+#: includes/class-nonce-challenge.php:140
+msgid "Invalid referer."
+msgstr "Ungültiger Verweis."
+
+#: includes/class-nonce-challenge.php:145
+msgid "Rate limit exceeded."
+msgstr "Ratenlimit überschritten."
+
+#: includes/class-nonce-challenge.php:186
+#: integrations/class-integration-woocommerce.php:160
+msgid "<strong>Error:</strong> Security verification failed. Please reload the page and try again."
+msgstr "<strong>Fehler:</strong> Die Sicherheitsüberprüfung ist fehlgeschlagen. Bitte laden Sie die Seite neu und versuchen Sie es erneut."
+
+#: includes/class-nonce-challenge.php:192
+msgid "Registration blocked: nonce challenge failed."
+msgstr "Registrierung gesperrt: Nonce-Challenge fehlgeschlagen."
+
+#: includes/class-plugin.php:199
+msgid "Registration Guard:"
+msgstr "Registrierungswächter:"
+
+#: includes/class-plugin.php:200
+msgid "Geo-restriction is enabled but no geo-IP provider is active. Install a plugin that provides IP geolocation (e.g. WooCommerce) or disable geo-restriction."
+msgstr "Die geografische Beschränkung ist aktiviert, aber es ist kein Geo-IP-Anbieter aktiv. Installieren Sie ein Plugin, das IP-Geolokalisierung bietet (z. B. WooCommerce), oder deaktivieren Sie die geografische Beschränkung."
+
+#: includes/class-settings.php:31
+msgid "Registration Guard Settings"
+msgstr "Registrierungswächter-Einstellungen"
+
+#: includes/class-settings.php:52
+msgid "JavaScript Nonce Challenge"
+msgstr "JavaScript-Nonce-Challenge"
+
+#: includes/class-settings.php:69
+msgid "Enable Nonce Challenge"
+msgstr "Nonce-Challenge aktivieren"
+
+#: includes/class-settings.php:87
+msgid "Minimum Delay (seconds)"
+msgstr "Minimale Verzögerung (Sekunden)"
+
+#: includes/class-settings.php:99
+msgid "Email Double Opt-In"
+msgstr "E-Mail-Double-Opt-in"
+
+#: includes/class-settings.php:116
+msgid "Enable Double Opt-In"
+msgstr "Doppelte Bestätigung aktivieren"
+
+#: includes/class-settings.php:134
+msgid "Verification Window (hours)"
+msgstr "Verifizierungsfenster (Stunden)"
+
+#: includes/class-settings.php:152
+msgid "Resend Cooldown (seconds)"
+msgstr "Wiederholungszeit (Sekunden)"
+
+#: includes/class-settings.php:164
+msgid "Geo-Restriction"
+msgstr "Geografische Beschränkung"
+
+#: includes/class-settings.php:185
+msgid "Enable Geo-Restriction"
+msgstr "Geografische Beschränkung aktivieren"
+
+#: includes/class-settings.php:203
+msgid "Mode"
+msgstr "Mode"
+
+#: includes/class-settings.php:221
+msgid "Country Codes"
+msgstr "Ländercodes"
+
+#: includes/class-settings.php:239
+msgid "If Geolocation Fails"
+msgstr "Wenn die Geolokalisierung fehlschlägt"
+
+#: includes/class-settings.php:258
+msgid "Blocks bots that POST directly to the registration handler without loading the page."
+msgstr "Blockiert Bots, die direkt an den Registrierungs-Handler POSTEN, ohne die Seite zu laden."
+
+#: includes/class-settings.php:270
+msgid "Requires new registrations to verify their email address. Unverified accounts are automatically deleted."
+msgstr "Neue Registrierungen müssen ihre E-Mail-Adresse bestätigen. Nicht bestätigte Konten werden automatisch gelöscht."
+
+#: includes/class-settings.php:283
+msgid "Geo-restriction is not available. No geo-IP provider is currently active."
+msgstr "Geografische Beschränkungen sind nicht verfügbar. Derzeit ist kein Geo-IP-Anbieter aktiv."
+
+#: includes/class-settings.php:284
+msgid "To enable this feature, install a plugin that provides IP geolocation, such as WooCommerce."
+msgstr "Um diese Funktion zu aktivieren, installieren Sie ein Plugin, das IP-Geolokalisierung bietet, wie beispielsweise WooCommerce."
+
+#: includes/class-settings.php:291
+msgid "Restrict registration by country using IP geolocation."
+msgstr "Beschränken Sie die Registrierung nach Ländern mithilfe der IP-Geolokalisierung."
+
+#: includes/class-settings.php:311
+msgid "Require a JavaScript nonce for registration form submissions"
+msgstr "Erfordert einen JavaScript-Nonce für das Absenden von Registrierungsformularen"
+
+#: includes/class-settings.php:329
+msgid "Seconds to wait after page load before the nonce can be fetched (1-10)."
+msgstr "Sekunden, die nach dem Laden der Seite gewartet werden müssen, bevor der Nonce abgerufen werden kann (1-10)."
+
+#: includes/class-settings.php:345
+msgid "Require email verification for new registrations"
+msgstr "E-Mail-Verifizierung für neue Registrierungen erforderlich"
+
+#: includes/class-settings.php:362
+msgid "Hours before unverified accounts are automatically deleted (1-72)."
+msgstr "Stunden, bevor nicht verifizierte Konten automatisch gelöscht werden (1–72)."
+
+#: includes/class-settings.php:380
+msgid "Minimum seconds between verification email resends per user (60-3600)."
+msgstr "Mindestzeit in Sekunden zwischen dem erneuten Versenden von Bestätigungs-E-Mails pro Benutzer (60–3600)."
+
+#: includes/class-settings.php:398
+msgid "Restrict registration by country"
+msgstr "Registrierung nach Land einschränken"
+
+#: includes/class-settings.php:415
+msgid "Allowlist — only allow listed countries"
+msgstr "Allowlist – nur aufgelistete Länder zulassen"
+
+#: includes/class-settings.php:418
+msgid "Blocklist — block listed countries"
+msgstr "Blockliste – Länder auf der Sperrliste"
+
+#: includes/class-settings.php:435
+msgid "Comma-separated ISO 3166-1 alpha-2 country codes (e.g. GB,US,FR,DE)."
+msgstr "Durch Kommas getrennte ISO 3166-1 Alpha-2-Ländercodes (z. B. GB, US, FR, DE)."
+
+#: includes/class-settings.php:452
+msgid "Block registration"
+msgstr "Blockregistrierung"
+
+#: includes/class-settings.php:455
+msgid "Allow registration"
+msgstr "Registrierung zulassen"
+
+#: includes/class-settings.php:456
+msgid "Action to take when the visitor's country cannot be determined."
+msgstr "Maßnahmen, die zu ergreifen sind, wenn das Land des Besuchers nicht ermittelt werden kann."
+
+#: includes/class-settings.php:612
+msgid "Settings"
+msgstr "Einstellungen"
+
+#: includes/class-settings.php:616
+msgid "Event Log"
+msgstr "Ereignisprotokoll"
+
+#: includes/class-settings.php:674
+msgid "No log entries found."
+msgstr "Keine Protokolleinträge gefunden."
+
+#: includes/class-settings.php:681
+msgid "Date"
+msgstr "Daten"
+
+#: includes/class-settings.php:682
+msgid "Event"
+msgstr "Veranstaltung"
+
+#: includes/class-settings.php:683
+msgid "User ID"
+msgstr "Benutzer-ID"
+
+#: includes/class-settings.php:684
+msgid "Message"
+msgstr "Nachricht"
+
+#: includes/class-settings.php:685
+msgid "IP Address"
+msgstr "IP-Adresse"
+
+#: integrations/class-integration-woocommerce.php:166
+msgid "WooCommerce registration blocked: nonce challenge failed."
+msgstr "WooCommerce-Registrierung blockiert: Nonce-Challenge fehlgeschlagen."
+
+#: integrations/class-integration-woocommerce.php:209
+msgid "You must verify your email address before accessing your account. Please check your inbox for the verification email."
+msgstr "Sie müssen Ihre E-Mail-Adresse bestätigen, bevor Sie auf Ihr Konto zugreifen können. Bitte überprüfen Sie Ihren Posteingang auf die Bestätigungs-E-Mail."
+
+#. translators: %s: site name
+#: views/emails/verification-email.php:23
+#, php-format
+msgid "Welcome to %s!"
+msgstr "Willkommen bei %s!"
+
+#. translators: %s: user display name
+#: views/emails/verification-email.php:29
+#, php-format
+msgid "Hi %s,"
+msgstr "Hallo %s,"
+
+#: views/emails/verification-email.php:33
+msgid "Please verify your email address by clicking the link below:"
+msgstr "Bitte bestätigen Sie Ihre E-Mail-Adresse, indem Sie auf den folgenden Link klicken:"
+
+#. translators: %d: number of hours
+#: views/emails/verification-email.php:39
+#, php-format
+msgid "This link will expire in %d hours. If you did not register, you can safely ignore this email."
+msgstr "Dieser Link läuft in %d Stunden ab. Wenn Sie sich nicht registriert haben, können Sie diese E-Mail ignorieren."
+
+#. translators: %s: site name
+#: views/emails/verification-email.php:47
+#, php-format
+msgid "This email was sent by %s."
+msgstr "Diese E-Mail wurde von %s gesendet."

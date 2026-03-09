@@ -137,12 +137,12 @@ class Nonce_Challenge {
 
 		$referer = wp_get_referer();
 		if ( ! $referer || ! wp_validate_redirect( $referer, false ) ) {
-			wp_send_json_error( array( 'message' => 'Invalid referer.' ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Invalid referer.', 'registration-guard' ) ), 403 );
 		}
 
 		$ip = get_ip_address();
 		if ( '' !== $ip && $this->is_rate_limited( $ip ) ) {
-			wp_send_json_error( array( 'message' => 'Rate limit exceeded.' ), 429 );
+			wp_send_json_error( array( 'message' => __( 'Rate limit exceeded.', 'registration-guard' ) ), 429 );
 		}
 
 		if ( '' !== $ip ) {

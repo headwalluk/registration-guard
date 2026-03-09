@@ -1,9 +1,9 @@
 # Project Tracker
 
-**Version:** 0.6.0-dev
+**Version:** 1.0.0
 **Last Updated:** 2026-03-09
-**Current Phase:** M9 (Polish & Release Prep)
-**Overall Progress:** 90%
+**Current Phase:** Released
+**Overall Progress:** 100%
 
 ---
 
@@ -20,7 +20,7 @@ Registration Guard is a lightweight WordPress plugin that layers three defences 
 - [x] Create `CLAUDE.md` with project-specific instructions
 - [x] Finalise requirement docs before scaffolding code
 - [x] Implement all core features (M2-M8)
-- [ ] M9: Polish & release prep
+- [x] M9: Polish & release prep
 
 ---
 
@@ -152,13 +152,15 @@ Registration Guard is a lightweight WordPress plugin that layers three defences 
 
 ### M9: Polish & Release Prep
 
-- [ ] i18n audit — all user-facing strings use text domain `registration-guard`
-- [ ] Admin notices (e.g., "Geo-restriction requires WooCommerce")
-- [ ] Final `phpcs` pass across entire codebase
-- [ ] Create `readme.txt` (WordPress.org format)
-- [ ] Create `CHANGELOG.md`
-- [ ] Bump version to 1.0.0
-- [ ] Tag release
+- [x] i18n audit — all user-facing strings use text domain `registration-guard`
+- [x] Admin notices (geo-restriction provider availability)
+- [x] Final `phpcs` pass across entire codebase
+- [x] Create `readme.txt` (WordPress.org format)
+- [x] Create `CHANGELOG.md`
+- [x] Generate `.pot` file and translations (8 languages)
+- [x] GitHub Actions release workflow (`.github/workflows/release.yml`)
+- [x] Bump version to 1.0.0
+- [x] Tag release
 
 ---
 
