@@ -1,6 +1,6 @@
 # Project Tracker
 
-**Version:** 0.2.0-dev
+**Version:** 0.3.0-dev
 **Last Updated:** 2026-03-09
 **Current Phase:** M2 (Event Logger)
 **Overall Progress:** 15%

@@ -75,9 +75,12 @@ const GEO_FAIL_ALLOW = 'allow';
  */
 const DEF_NONCE_ENABLED       = true;
 const DEF_NONCE_MIN_DELAY     = 1;
+const DEF_NONCE_MAX_DELAY     = 10;
 const DEF_DOUBLE_OPTIN        = true;
 const DEF_VERIFICATION_WINDOW = 24;
-const DEF_RESEND_COOLDOWN     = 300; // 5 minutes in seconds.
+const MAX_VERIFICATION_WINDOW = 72;
+const DEF_RESEND_COOLDOWN     = 5 * MINUTE_IN_SECONDS;
+const MAX_RESEND_COOLDOWN     = HOUR_IN_SECONDS;
 const DEF_GEO_ENABLED         = false;
 const DEF_GEO_MODE            = GEO_MODE_BLOCKLIST;
 const DEF_GEO_COUNTRIES       = '';
@@ -93,7 +96,7 @@ const DEF_GEO_FAIL_ACTION     = GEO_FAIL_BLOCK;
  * @since 1.0.0
  */
 const RATE_LIMIT_NONCE_MAX    = 20;
-const RATE_LIMIT_NONCE_WINDOW = 300; // 5 minutes in seconds.
+const RATE_LIMIT_NONCE_WINDOW = 5 * MINUTE_IN_SECONDS;
 
 // =============================================================================
 // Transient Key Prefixes
@@ -116,7 +119,7 @@ const TRANSIENT_RESEND_COOLDOWN = 'regguard_resend_cooldown_';
  *
  * @since 1.0.0
  */
-const NONCE_EXPIRY = 300; // 5 minutes in seconds.
+const NONCE_EXPIRY = 5 * MINUTE_IN_SECONDS;
 
 // =============================================================================
 // Query Parameters

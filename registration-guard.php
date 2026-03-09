@@ -3,7 +3,7 @@
  * Plugin Name: Registration Guard
  * Plugin URI: https://github.com/headwalluk/registration-guard
  * Description: Lightweight bot registration protection for WordPress and WooCommerce. Three layered defences with zero configuration required.
- * Version: 0.2.0
+ * Version: 0.3.0
  * Requires at least: 6.0
  * Requires PHP: 8.0
  * Author: Paul Faulkner
@@ -19,7 +19,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || die();
 
-define( 'REGISTRATION_GUARD_VERSION', '0.2.0' );
+define( 'REGISTRATION_GUARD_VERSION', '0.3.0' );
 define( 'REGISTRATION_GUARD_FILE', __FILE__ );
 define( 'REGISTRATION_GUARD_PATH', plugin_dir_path( __FILE__ ) );
 define( 'REGISTRATION_GUARD_URL', plugin_dir_url( __FILE__ ) );

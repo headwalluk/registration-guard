@@ -35,10 +35,11 @@ class Plugin {
 	 */
 	public function run(): void {
 		$this->settings = new Settings();
-		$this->settings->run();
 
-		add_action( 'admin_init', array( $this, 'check_first_run' ), 1 );
 		add_action( 'init', array( $this, 'load_textdomain' ) );
+		add_action( 'admin_init', array( $this, 'check_first_run' ), 1 );
+		add_action( 'admin_init', array( $this->settings, 'register_settings' ) );
+		add_action( 'admin_menu', array( $this->settings, 'add_settings_page' ) );
 
 		if ( class_exists( 'WooCommerce' ) ) {
 			$this->load_woocommerce();
@@ -93,15 +94,6 @@ class Plugin {
 	 */
 	private function load_woocommerce(): void {
 		// WooCommerce class will be loaded here in M6.
-		// HPOS compatibility declaration.
-		add_action(
-			'before_woocommerce_init',
-			function (): void {
-				if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-					\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', REGISTRATION_GUARD_FILE, true );
-				}
-			}
-		);
 	}
 
 	/**

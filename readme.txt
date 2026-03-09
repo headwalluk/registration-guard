@@ -4,7 +4,7 @@ Tags: security, registration, anti-spam, bot-protection, woocommerce
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
-Stable tag: 0.2.0
+Stable tag: 0.3.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,6 @@ Each layer works independently. Enable or disable any combination to suit your s
 * Protects WooCommerce My Account registration forms
 * Checkout registrations are auto-approved (payment acts as verification)
 * Geo-restriction uses WooCommerce's built-in geolocation
-* HPOS compatible
 * Works perfectly without WooCommerce (geo-restriction is simply unavailable)
 
 = Non-Breaking Design =
@@ -110,6 +109,11 @@ Yes. Registration Guard provides a `registration_guard_skip_verification` filter
 
 == Changelog ==
 
+= 0.3.0 =
+* Centralise hook registration in Plugin class
+* Replace magic numbers with named constants
+* Remove unnecessary HPOS compatibility declaration
+
 = 0.2.0 =
 * Bootstrap and settings page implementation
 * Main plugin class, constants, helper functions
@@ -121,6 +125,9 @@ Yes. Registration Guard provides a `registration_guard_skip_verification` filter
 * Project scaffolding and documentation
 
 == Upgrade Notice ==
+
+= 0.3.0 =
+Code quality improvements and cleanup.
 
 = 0.2.0 =
 Bootstrap and settings page implementation.

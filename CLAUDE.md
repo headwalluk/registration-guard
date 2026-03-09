@@ -58,8 +58,6 @@ No build step, test framework, or package.json. Code quality is enforced via php
 - `woocommerce_register_form` — inject hidden nonce field (My Account only, NOT checkout)
 - `woocommerce_register_post` — validate nonce (My Account only, NOT checkout)
 - `template_redirect` — `wp_die()` interstitial for unverified users on My Account pages
-- `before_woocommerce_init` — HPOS compatibility declaration
-
 **Geo-Restriction:**
 - `registration_errors` / `woocommerce_register_post` — check country via `WC_Geolocation::geolocate_ip()`. Feature disabled without WooCommerce.
 

@@ -22,16 +22,6 @@ defined( 'ABSPATH' ) || die();
 class Settings {
 
 	/**
-	 * Initialize hooks.
-	 *
-	 * @since 1.0.0
-	 */
-	public function run(): void {
-		add_action( 'admin_menu', array( $this, 'add_settings_page' ) );
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
-	}
-
-	/**
 	 * Add settings page to WordPress admin menu.
 	 *
 	 * @since 1.0.0
@@ -321,9 +311,11 @@ class Settings {
 		$value = (int) get_option( OPT_NONCE_MIN_DELAY, DEF_NONCE_MIN_DELAY );
 
 		printf(
-			'<input type="number" name="%s" value="%s" min="1" max="10" class="small-text" /> <p class="description">%s</p>',
+			'<input type="number" name="%s" value="%s" min="%s" max="%s" class="small-text" /> <p class="description">%s</p>',
 			esc_attr( OPT_NONCE_MIN_DELAY ),
 			esc_attr( $value ),
+			esc_attr( DEF_NONCE_MIN_DELAY ),
+			esc_attr( DEF_NONCE_MAX_DELAY ),
 			esc_html__( 'Seconds to wait after page load before the nonce can be fetched (1-10).', 'registration-guard' )
 		);
 	}
@@ -353,9 +345,10 @@ class Settings {
 		$value = (int) get_option( OPT_VERIFICATION_WINDOW, DEF_VERIFICATION_WINDOW );
 
 		printf(
-			'<input type="number" name="%s" value="%s" min="1" max="72" class="small-text" /> <p class="description">%s</p>',
+			'<input type="number" name="%s" value="%s" min="1" max="%s" class="small-text" /> <p class="description">%s</p>',
 			esc_attr( OPT_VERIFICATION_WINDOW ),
 			esc_attr( $value ),
+			esc_attr( MAX_VERIFICATION_WINDOW ),
 			esc_html__( 'Hours before unverified accounts are automatically deleted (1-72).', 'registration-guard' )
 		);
 	}
@@ -369,9 +362,11 @@ class Settings {
 		$value = (int) get_option( OPT_RESEND_COOLDOWN, DEF_RESEND_COOLDOWN );
 
 		printf(
-			'<input type="number" name="%s" value="%s" min="60" max="3600" class="small-text" /> <p class="description">%s</p>',
+			'<input type="number" name="%s" value="%s" min="%s" max="%s" class="small-text" /> <p class="description">%s</p>',
 			esc_attr( OPT_RESEND_COOLDOWN ),
 			esc_attr( $value ),
+			esc_attr( MINUTE_IN_SECONDS ),
+			esc_attr( MAX_RESEND_COOLDOWN ),
 			esc_html__( 'Minimum seconds between verification email resends per user (60-3600).', 'registration-guard' )
 		);
 	}
@@ -469,7 +464,7 @@ class Settings {
 		$val    = (int) $value;
 		$result = DEF_NONCE_MIN_DELAY;
 
-		if ( $val >= 1 && $val <= 10 ) {
+		if ( $val >= DEF_NONCE_MIN_DELAY && $val <= DEF_NONCE_MAX_DELAY ) {
 			$result = $val;
 		}
 
@@ -489,7 +484,7 @@ class Settings {
 		$val    = (int) $value;
 		$result = DEF_VERIFICATION_WINDOW;
 
-		if ( $val >= 1 && $val <= 72 ) {
+		if ( $val >= 1 && $val <= MAX_VERIFICATION_WINDOW ) {
 			$result = $val;
 		}
 
@@ -509,7 +504,7 @@ class Settings {
 		$val    = (int) $value;
 		$result = DEF_RESEND_COOLDOWN;
 
-		if ( $val >= 60 && $val <= 3600 ) {
+		if ( $val >= MINUTE_IN_SECONDS && $val <= MAX_RESEND_COOLDOWN ) {
 			$result = $val;
 		}
 
