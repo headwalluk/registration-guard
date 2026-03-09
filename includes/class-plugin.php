@@ -101,14 +101,11 @@ class Plugin {
 		add_action( 'admin_init', array( $this->email_verification, 'block_unverified_admin' ) );
 		add_action( 'wp_ajax_' . Email_Verification::AJAX_RESEND, array( $this->email_verification, 'ajax_resend_verification' ) );
 		add_action( 'wp_ajax_nopriv_' . Email_Verification::AJAX_RESEND, array( $this->email_verification, 'ajax_resend_verification' ) );
+		add_filter( 'wp_new_user_notification_email', array( $this->email_verification, 'maybe_suppress_wp_new_user_email' ), 10, 3 );
 
 		// Geo-restriction hooks.
 		add_filter( 'registration_errors', array( $this->geo_restriction, 'validate_registration' ) );
 		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
-
-		if ( class_exists( 'WooCommerce' ) ) {
-			$this->load_woocommerce();
-		}
 	}
 
 	/**
@@ -165,21 +162,25 @@ class Plugin {
 	}
 
 	/**
-	 * Load WooCommerce-specific functionality.
-	 *
-	 * Registers hooks for WooCommerce My Account registration
-	 * protection. Checkout is deliberately excluded.
+	 * Get the nonce challenge instance.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return Nonce_Challenge The nonce challenge instance.
 	 */
-	private function load_woocommerce(): void {
-		$woo = new WooCommerce();
+	public function get_nonce_challenge(): Nonce_Challenge {
+		return $this->nonce_challenge;
+	}
 
-		add_action( 'wp_enqueue_scripts', array( $woo, 'enqueue_script' ) );
-		add_action( 'woocommerce_register_form', array( $woo, 'render_nonce_field' ) );
-		add_filter( 'woocommerce_register_post', array( $woo, 'validate_nonce' ), 10, 3 );
-		add_action( 'template_redirect', array( $woo, 'block_unverified_myaccount' ) );
-		add_filter( 'woocommerce_register_post', array( $this->geo_restriction, 'validate_woocommerce_registration' ), 10, 3 );
+	/**
+	 * Get the geo-restriction instance.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return Geo_Restriction The geo-restriction instance.
+	 */
+	public function get_geo_restriction(): Geo_Restriction {
+		return $this->geo_restriction;
 	}
 
 	/**
@@ -192,11 +193,11 @@ class Plugin {
 			return;
 		}
 
-		if ( is_geo_enabled() && ! class_exists( 'WooCommerce' ) ) {
+		if ( is_geo_enabled() && ! is_geo_provider_available() ) {
 			printf(
 				'<div class="notice notice-warning"><p><strong>%s</strong> %s</p></div>',
 				esc_html__( 'Registration Guard:', 'registration-guard' ),
-				esc_html__( 'Geo-restriction requires WooCommerce for IP geolocation. This feature is currently inactive.', 'registration-guard' )
+				esc_html__( 'Geo-restriction is enabled but no geo-IP provider is active. Install a plugin that provides IP geolocation (e.g. WooCommerce) or disable geo-restriction.', 'registration-guard' )
 			);
 		}
 	}

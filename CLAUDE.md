@@ -16,7 +16,7 @@ phpcbf                             # Auto-fix coding standards violations
 phpcs includes/class-plugin.php    # Check a specific file
 ```
 
-No build step, test framework, or package.json. Code quality is enforced via phpcs only.
+No build step, test framework, package.json, or Composer. This project has **zero dependency management** — no `composer.json`, no `vendor/` directory, no autoloader. `phpcs` and `phpcbf` are installed globally on the system. Always invoke them directly (never via `vendor/bin/`).
 
 ## Architecture
 
@@ -30,7 +30,7 @@ No build step, test framework, or package.json. Code quality is enforced via php
 
 ### Entry Point & Initialisation
 
-`registration-guard.php` → `registration_guard_run()` → `new Plugin()` stored in `global $regguard_plugin`. Access via `Registration_Guard\get_plugin()`. Classes are manually loaded (no autoloader). WooCommerce-specific class loaded conditionally when `class_exists( 'WooCommerce' )`.
+`registration-guard.php` → `registration_guard_run()` → `new Plugin()` stored in `global $regguard_plugin`. Access via `Registration_Guard\get_plugin()`. Classes are manually loaded (no autoloader, no Composer). Integrations in `integrations/` are always required but self-gate on `plugins_loaded` — each checks whether its target plugin is active before registering hooks.
 
 ### Hook Strategy
 
@@ -54,9 +54,9 @@ No build step, test framework, or package.json. Code quality is enforced via php
 - `regguard_cleanup_unverified_accounts` (hourly cron) — delete expired unverified accounts (subscriber/customer roles only, batch of 50)
 - `regguard_prune_event_log` (daily cron) — prune log entries older than 30 days
 
-**WooCommerce (conditional):**
+**WooCommerce (via `integrations/woocommerce.php`, self-gates on `plugins_loaded`):**
 - `woocommerce_register_form` — inject hidden nonce field (My Account only, NOT checkout)
-- `woocommerce_register_post` — validate nonce (My Account only, NOT checkout)
+- `woocommerce_register_post` — validate nonce and geo-restriction (My Account only, NOT checkout)
 - `template_redirect` — `wp_die()` interstitial for unverified users on My Account pages
 **Geo-Restriction:**
 - `registration_errors` / `woocommerce_register_post` — check country via `WC_Geolocation::geolocate_ip()`. Feature disabled without WooCommerce.
@@ -67,15 +67,16 @@ No build step, test framework, or package.json. Code quality is enforced via php
 |------|---------|
 | `registration-guard.php` | Main plugin file, activation/deactivation hooks, class loading |
 | `constants.php` | All constants: meta keys, option keys, defaults, transient keys, log event types, DB table name |
+| `functions.php` | Public API: global-scope functions for external use (`registration_guard_get_plugin()`, etc.) |
 | `functions-private.php` | Namespaced helper functions: config getters, `get_now_formatted()`, `get_ip_address()` |
-| `includes/class-plugin.php` | Main orchestrator: hook registration, conditional WooCommerce loading |
+| `includes/class-plugin.php` | Main orchestrator: hook registration for core features |
 | `includes/class-nonce-challenge.php` | Admin-ajax nonce endpoint (with referer check), form field injection, validation |
 | `includes/class-email-verification.php` | Double opt-in: token generation, verification links, resend handler, interstitial |
 | `includes/class-account-cleanup.php` | Hourly cron: delete expired unverified accounts in batches |
 | `includes/class-logger.php` | Custom table `{prefix}regguard_log`, event logging, daily pruning cron |
 | `includes/class-geo-restriction.php` | Country allow/block list via WC_Geolocation |
 | `includes/class-settings.php` | Admin settings page under Settings menu (WordPress Settings API) |
-| `includes/class-woocommerce.php` | WooCommerce-specific hooks, conditionally loaded |
+| `integrations/class-integration-woocommerce.php` | WooCommerce integration: self-gates on `plugins_loaded`, registers Woo-specific hooks |
 | `assets/js/nonce-challenge.js` | Front-end: fetch nonce via AJAX after delay, inject into registration form |
 | `views/emails/verification-email.php` | Plain text verification email template |
 

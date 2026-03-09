@@ -1,6 +1,6 @@
 # Project Tracker
 
-**Version:** 0.5.0-dev
+**Version:** 0.6.0-dev
 **Last Updated:** 2026-03-09
 **Current Phase:** M9 (Polish & Release Prep)
 **Overall Progress:** 90%
@@ -9,7 +9,7 @@
 
 ## Overview
 
-Registration Guard is a lightweight WordPress plugin that layers three defences against bot registration: a JavaScript nonce challenge, email double opt-in with auto-cleanup, and geo-restriction (via WooCommerce geolocation). It works with both native WordPress registration and WooCommerce My Account registration.
+Registration Guard is a lightweight WordPress plugin that layers three defences against bot registration: a JavaScript nonce challenge, email double opt-in with auto-cleanup, and geo-restriction (via pluggable geo-IP providers). It works with both native WordPress registration and WooCommerce My Account registration (via the integration architecture).
 
 ---
 
@@ -43,28 +43,6 @@ Registration Guard is a lightweight WordPress plugin that layers three defences 
 - [x] Create `includes/class-settings.php` (settings page with three sections, nine fields)
 - [x] Verify bootstrap loads cleanly (no errors on activation)
 - [x] Run `phpcs` — clean pass
-
-### M2: Event Logger
-
-- [ ] Create `includes/class-logger.php`
-  - [ ] Custom table `{prefix}regguard_log` via `dbDelta()` on activation
-  - [ ] Schema: `id` (bigint auto), `event_type` (varchar), `user_id` (bigint), `message` (text), `ip_address` (varchar), `created_at` (datetime)
-  - [ ] `log( string $event_type, int $user_id, string $message, string $ip = '' ): void`
-  - [ ] Public method for querying log entries (for future admin UI)
-- [ ] Daily WP-Cron to prune log entries older than 30 days
-  - [ ] Cron hook: `regguard_prune_event_log`
-  - [ ] Batch delete (1000 per run) to avoid timeouts
-- [ ] Schedule prune cron on activation, unschedule on deactivation
-- [ ] Define event type constants in `constants.php`
-  - [ ] `LOG_USER_REGISTERED` — new user entered verification flow
-  - [ ] `LOG_VERIFICATION_SENT` — double opt-in email sent
-  - [ ] `LOG_VERIFICATION_RESENT` — user requested resend
-  - [ ] `LOG_VERIFICATION_SUCCESS` — user clicked verification link
-  - [ ] `LOG_VERIFICATION_EXPIRED` — unverified account auto-deleted
-  - [ ] `LOG_NONCE_REJECTED` — registration blocked by nonce challenge
-  - [ ] `LOG_GEO_BLOCKED` — registration blocked by geo-restriction
-  - [ ] `LOG_CHECKOUT_AUTOAPPROVED` — checkout registration auto-approved
-- [ ] Run `phpcs` — clean pass
 
 ### M2: Event Logger ✓
 
@@ -135,27 +113,29 @@ Registration Guard is a lightweight WordPress plugin that layers three defences 
 
 ### M6: WooCommerce Integration ✓
 
-- [x] Create `includes/class-woocommerce.php` (conditionally loaded)
+- [x] Create `integrations/class-integration-woocommerce.php` (self-gates on `plugins_loaded`)
   - [x] Hidden nonce field injection into `woocommerce_register_form` (My Account only)
-  - [x] Nonce validation on `woocommerce_register_post` (My Account only)
-  - [x] Script enqueue on My Account pages only
+  - [x] Nonce validation via centralised `check_nonce_token()` (My Account only)
+  - [x] Script enqueue via centralised `enqueue_nonce_script()` on My Account pages
   - [x] `template_redirect` hook: `wp_die()` interstitial for unverified users on My Account
   - [x] Checkout detection and exclusion throughout
-- [x] WooCommerce detection and conditional loading in `class-plugin.php`
+  - [x] Suppress WooCommerce "new account" email when double opt-in is active
+  - [x] Redirect verified users to My Account page (not wp-login.php)
+  - [x] Provide geo-IP data via `registration_guard_geolocate_ip` filter
 - [x] Geo-restriction validation on `woocommerce_register_post`
 - [x] Run `phpcs` — clean pass
 
 ### M7: Geo-Restriction ✓
 
 - [x] Create `includes/class-geo-restriction.php`
-  - [x] Country detection via `WC_Geolocation::geolocate_ip()`
+  - [x] Pluggable country detection via `registration_guard_geolocate_ip` filter
   - [x] Allowlist / blocklist mode checking
   - [x] Geo fail action (block or allow, configurable)
   - [x] Validation on `registration_errors` and `woocommerce_register_post`
-  - [x] Feature disabled when WooCommerce not active
+  - [x] Feature disabled when no geo-IP provider is active
   - [x] Log blocked registrations via Logger (`LOG_GEO_BLOCKED`)
-- [x] Settings already implemented in M1
-- [x] Admin notice for WooCommerce requirement
+- [x] Settings hidden when no geo-IP provider available (informational notice shown)
+- [x] Admin notice when geo-restriction enabled without a provider
 - [x] Run `phpcs` — clean pass
 
 ### M8: Uninstall & Activation/Deactivation ✓
@@ -214,7 +194,7 @@ Additional decisions from discussion:
 - **Multisite support** — single-site only
 - **Email change re-verification** (D10)
 - **Password reset blocking for unverified users** (D11)
-- **Bundled GeoIP database** — geo-restriction requires WooCommerce
+- **Bundled GeoIP database** — geo-restriction requires an external geo-IP provider
 - **HTML verification emails** — plain text only (D6, permanent)
 - **Nonce challenge on checkout** — checkout is completely untouched (D4, permanent)
 

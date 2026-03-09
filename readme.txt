@@ -4,7 +4,7 @@ Tags: security, registration, anti-spam, bot-protection, woocommerce
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
-Stable tag: 0.5.0
+Stable tag: 0.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,7 @@ Registration Guard protects your WordPress and WooCommerce site from automated b
 
 * **JavaScript Nonce Challenge** -- Registration forms require a time-delayed nonce fetched via AJAX after the page loads. Bots that POST directly to the registration handler without loading the page are blocked automatically.
 * **Email Double Opt-In** -- New registrations must verify their email address by clicking a tokenised link. Unverified accounts are automatically deleted after a configurable window (default: 24 hours).
-* **Geo-Restriction** -- Limit registration to allowed countries or block specific countries using WooCommerce's built-in geolocation. Requires WooCommerce.
+* **Geo-Restriction** -- Limit registration to allowed countries or block specific countries using IP geolocation. Requires a geo-IP provider (e.g. WooCommerce, or any plugin that hooks `registration_guard_geolocate_ip`).
 
 Each layer works independently. Enable or disable any combination to suit your site.
 
@@ -26,8 +26,8 @@ Each layer works independently. Enable or disable any combination to suit your s
 
 * Protects WooCommerce My Account registration forms
 * Checkout registrations are auto-approved (payment acts as verification)
-* Geo-restriction uses WooCommerce's built-in geolocation
-* Works perfectly without WooCommerce (geo-restriction is simply unavailable)
+* Geo-restriction uses pluggable IP geolocation (WooCommerce or custom provider)
+* Works perfectly without WooCommerce (geo-restriction requires a separate geo-IP provider)
 
 = Non-Breaking Design =
 
@@ -109,6 +109,20 @@ Yes. Registration Guard provides a `registration_guard_skip_verification` filter
 
 == Changelog ==
 
+= 0.6.0 =
+* Integration architecture: WooCommerce moved to `integrations/` with `plugins_loaded` convention
+* Pluggable geo-IP provider model via `registration_guard_geolocate_ip` filter
+* Geo-restriction no longer hardcoded to WooCommerce -- any geo-IP source works
+* Settings page hides geo-restriction fields when no provider is available
+* Suppress duplicate registration emails (WordPress core and WooCommerce)
+* Post-verification redirect to password reset form (set your password flow)
+* WooCommerce: redirect verified users to My Account instead of wp-login.php
+* Centralised nonce script enqueue with `registration_guard_nonce_script_data` filter
+* Event log IP enrichment with country flags (Unicode, zero dependencies)
+* Filterable event log rows via `registration_guard_log_row`
+* Public API: `functions.php` with `registration_guard_get_plugin()` and `registration_guard_has_geo_provider()`
+* New docs: integration guide, geo-IP provider guide
+
 = 0.5.0 =
 * Tabbed admin page with Settings and Event Log tabs
 * Robust geo-restriction country code sanitisation
@@ -139,6 +153,9 @@ Yes. Registration Guard provides a `registration_guard_skip_verification` filter
 * Project scaffolding and documentation
 
 == Upgrade Notice ==
+
+= 0.6.0 =
+Integration architecture, pluggable geo-IP providers, and single-email registration flow.
 
 = 0.5.0 =
 Tabbed admin page and improved country code sanitisation.

@@ -83,6 +83,20 @@ function is_geo_enabled(): bool {
 	return (bool) filter_var( get_option( OPT_GEO_ENABLED, DEF_GEO_ENABLED ), FILTER_VALIDATE_BOOLEAN );
 }
 
+/**
+ * Check if a geo-IP provider is available.
+ *
+ * Returns true if any plugin has hooked into the
+ * `registration_guard_geolocate_ip` filter to supply geolocation data.
+ *
+ * @since 1.0.0
+ *
+ * @return bool True if a provider is registered.
+ */
+function is_geo_provider_available(): bool {
+	return has_filter( 'registration_guard_geolocate_ip' ) !== false;
+}
+
 // =============================================================================
 // Utility Functions
 // =============================================================================

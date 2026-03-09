@@ -108,6 +108,7 @@ This prevents whitespace bleeding into attributes and values, and makes the code
 registration-guard/
 ├── registration-guard.php       # Main plugin file, bootstrap
 ├── constants.php                # All constants
+├── functions.php                # Public API (global scope)
 ├── functions-private.php         # Namespaced helper functions
 ├── uninstall.php                # Clean data removal
 ├── phpcs.xml                    # Coding standards config
@@ -119,11 +120,13 @@ registration-guard/
 │   ├── class-account-cleanup.php
 │   ├── class-logger.php
 │   ├── class-geo-restriction.php
-│   ├── class-settings.php
-│   └── class-woocommerce.php
+│   └── class-settings.php
+├── integrations/                # Third-party plugin integrations
+│   └── class-integration-woocommerce.php
 ├── assets/
 │   └── js/
-│       └── nonce-challenge.js
+│       ├── nonce-challenge.js
+│       └── admin.js
 ├── views/
 │   └── emails/
 │       └── verification-email.php

@@ -113,7 +113,19 @@ class Email_Verification {
 			__( 'Email address verified successfully.', 'registration-guard' )
 		);
 
-		wp_safe_redirect( wp_login_url() . '?regguard_verified=1' );
+		$default_url = $this->get_password_reset_url( $user_id );
+
+		/**
+		 * Filter the URL users are redirected to after successful email verification.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $redirect_url Default redirect URL (password reset form).
+		 * @param int    $user_id      The verified user's ID.
+		 */
+		$redirect_url = apply_filters( 'registration_guard_verification_redirect_url', $default_url, $user_id );
+
+		wp_safe_redirect( $redirect_url );
 		exit;
 	}
 
@@ -224,6 +236,37 @@ class Email_Verification {
 	}
 
 	/**
+	 * Suppress WordPress's "new user" email when our double opt-in is active.
+	 *
+	 * WordPress sends a "set your password" email on registration. When
+	 * our verification email is being sent instead, suppress the WordPress
+	 * email to avoid confusing the user with two emails. The admin
+	 * notification is unaffected (that's a separate filter).
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array    $email Email arguments (to, subject, message, headers).
+	 * @param \WP_User $user  The new user object.
+	 * @param string   $blogname The site name.
+	 *
+	 * @return array Modified email arguments, or empty array to suppress.
+	 */
+	public function maybe_suppress_wp_new_user_email( array $email, \WP_User $user, string $blogname ): array { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed -- filter signature.
+		if ( ! is_double_optin_enabled() ) {
+			return $email;
+		}
+
+		if ( $this->should_skip_verification( $user->ID ) ) {
+			return $email;
+		}
+
+		// Clear the recipient to prevent wp_mail() from sending.
+		$email['to'] = '';
+
+		return $email;
+	}
+
+	/**
 	 * Determine whether verification should be skipped for a user.
 	 *
 	 * @since 1.0.0
@@ -303,5 +346,43 @@ class Email_Verification {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Build a password reset URL for a user.
+	 *
+	 * Generates a WordPress password reset key and returns the URL
+	 * to the "set your password" form. Falls back to the login page
+	 * with a verified flag if the key cannot be generated.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param int $user_id User ID.
+	 *
+	 * @return string Password reset URL, or login URL as fallback.
+	 */
+	private function get_password_reset_url( int $user_id ): string {
+		$user = get_userdata( $user_id );
+
+		if ( ! $user ) {
+			return wp_login_url() . '?regguard_verified=1';
+		}
+
+		$reset_key = get_password_reset_key( $user );
+
+		if ( is_wp_error( $reset_key ) ) {
+			return wp_login_url() . '?regguard_verified=1';
+		}
+
+		$url = add_query_arg(
+			array(
+				'action' => 'rp',
+				'key'    => $reset_key,
+				'login'  => rawurlencode( $user->user_login ),
+			),
+			wp_login_url()
+		);
+
+		return $url;
 	}
 }

@@ -14,9 +14,10 @@ defined( 'ABSPATH' ) || die();
 /**
  * Geo-Restriction Class.
  *
- * Restricts registration by country using WooCommerce's built-in
- * geolocation. Supports allowlist and blocklist modes with a
- * configurable fail action when geolocation is unavailable.
+ * Restricts registration by country. Supports allowlist and blocklist
+ * modes with a configurable fail action when geolocation is unavailable.
+ * Country lookup is delegated to the `registration_guard_geolocate_ip`
+ * filter, which geo-IP providers (e.g. WooCommerce) hook into.
  *
  * @since 1.0.0
  */
@@ -80,7 +81,8 @@ class Geo_Restriction {
 	/**
 	 * Check whether geo-restriction is active.
 	 *
-	 * Requires both the setting to be enabled and WooCommerce to be available.
+	 * Requires both the setting to be enabled and a geo-IP provider
+	 * to be available.
 	 *
 	 * @since 1.0.0
 	 *
@@ -89,7 +91,7 @@ class Geo_Restriction {
 	private function is_active(): bool {
 		$result = false;
 
-		if ( is_geo_enabled() && class_exists( 'WooCommerce' ) && class_exists( '\WC_Geolocation' ) ) {
+		if ( is_geo_enabled() && is_geo_provider_available() ) {
 			$result = true;
 		}
 
@@ -124,22 +126,41 @@ class Geo_Restriction {
 	}
 
 	/**
-	 * Get the visitor's country code via WooCommerce geolocation.
+	 * Get the visitor's country code via a geo-IP provider.
+	 *
+	 * Delegates to the `registration_guard_geolocate_ip` filter so
+	 * any plugin can supply geolocation data.
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param string $ip Optional. IP address to look up. Defaults to the current visitor's IP.
+	 *
 	 * @return string ISO 3166-1 alpha-2 country code, or empty string if unavailable.
 	 */
-	private function get_country_code(): string {
-		$ip   = get_ip_address();
-		$code = '';
-
-		if ( '' !== $ip && class_exists( '\WC_Geolocation' ) ) {
-			$geo  = \WC_Geolocation::geolocate_ip( $ip );
-			$code = isset( $geo['country'] ) ? strtoupper( $geo['country'] ) : '';
+	public function get_country_code( string $ip = '' ): string {
+		if ( '' === $ip ) {
+			$ip = get_ip_address();
 		}
 
-		return $code;
+		if ( '' === $ip ) {
+			return '';
+		}
+
+		/**
+		 * Resolve an IP address to a two-letter country code.
+		 *
+		 * Geo-IP providers hook into this filter to supply country
+		 * data. Return an uppercase ISO 3166-1 alpha-2 code (e.g. "GB")
+		 * or an empty string if the IP cannot be resolved.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $country_code Country code (empty by default).
+		 * @param string $ip           IP address to look up.
+		 */
+		$code = apply_filters( 'registration_guard_geolocate_ip', '', $ip );
+
+		return strtoupper( (string) $code );
 	}
 
 	/**

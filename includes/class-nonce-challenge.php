@@ -38,7 +38,10 @@ class Nonce_Challenge {
 	const FIELD_NAME = 'regguard_nonce_token';
 
 	/**
-	 * Enqueue the nonce challenge script on pages with registration forms.
+	 * Enqueue the nonce challenge script on the wp-login.php registration form.
+	 *
+	 * Hook callback for `login_enqueue_scripts`. Gates on the nonce
+	 * challenge being enabled, then delegates to `enqueue_nonce_script()`.
 	 *
 	 * @since 1.0.0
 	 */
@@ -47,6 +50,21 @@ class Nonce_Challenge {
 			return;
 		}
 
+		$this->enqueue_nonce_script();
+	}
+
+	/**
+	 * Enqueue the nonce challenge script and localise its configuration.
+	 *
+	 * Reusable method for any context that needs the nonce challenge JS
+	 * (wp-login.php, WooCommerce My Account, future integrations).
+	 * The localised config array is passed through the
+	 * `registration_guard_nonce_script_data` filter so integrations can
+	 * adjust behaviour.
+	 *
+	 * @since 1.0.0
+	 */
+	public function enqueue_nonce_script(): void {
 		wp_enqueue_script(
 			'regguard-nonce-challenge',
 			REGISTRATION_GUARD_URL . 'assets/js/nonce-challenge.js',
@@ -55,15 +73,36 @@ class Nonce_Challenge {
 			true
 		);
 
+		$script_data = array(
+			'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
+			'action'    => self::AJAX_ACTION,
+			'fieldName' => self::FIELD_NAME,
+			'delay'     => (int) get_option( OPT_NONCE_MIN_DELAY, DEF_NONCE_MIN_DELAY ),
+		);
+
+		/**
+		 * Filter the nonce challenge script configuration.
+		 *
+		 * Allows integrations to modify the data passed to the front-end
+		 * nonce challenge script via `wp_localize_script()`.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $script_data {
+		 *     Script configuration.
+		 *
+		 *     @type string $ajaxUrl   Admin AJAX URL.
+		 *     @type string $action    AJAX action name.
+		 *     @type string $fieldName Hidden form field name.
+		 *     @type int    $delay     Minimum delay in seconds before fetching nonce.
+		 * }
+		 */
+		$script_data = apply_filters( 'registration_guard_nonce_script_data', $script_data );
+
 		wp_localize_script(
 			'regguard-nonce-challenge',
 			'regguardNonce',
-			array(
-				'ajaxUrl'   => admin_url( 'admin-ajax.php' ),
-				'action'    => self::AJAX_ACTION,
-				'fieldName' => self::FIELD_NAME,
-				'delay'     => (int) get_option( OPT_NONCE_MIN_DELAY, DEF_NONCE_MIN_DELAY ),
-			)
+			$script_data
 		);
 	}
 
@@ -161,7 +200,8 @@ class Nonce_Challenge {
 	 * Check whether a nonce token is valid.
 	 *
 	 * Verifies the WordPress nonce, checks that it was issued by our
-	 * endpoint, and enforces the minimum elapsed time.
+	 * endpoint, and enforces the minimum elapsed time. Public so that
+	 * integrations (e.g. WooCommerce) can reuse the same validation logic.
 	 *
 	 * @since 1.0.0
 	 *
@@ -169,7 +209,7 @@ class Nonce_Challenge {
 	 *
 	 * @return bool True if the token is valid.
 	 */
-	private function check_nonce_token( string $token ): bool {
+	public function check_nonce_token( string $token ): bool {
 		$result = false;
 
 		if ( '' !== $token && false !== wp_verify_nonce( $token, self::AJAX_ACTION ) ) {

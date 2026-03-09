@@ -166,6 +166,10 @@ class Settings {
 			'registration-guard'
 		);
 
+		if ( ! is_geo_provider_available() ) {
+			return;
+		}
+
 		register_setting(
 			'regguard_settings',
 			OPT_GEO_ENABLED,
@@ -273,13 +277,19 @@ class Settings {
 	 * @since 1.0.0
 	 */
 	public function render_geo_section(): void {
-		$description = __( 'Restrict registration by country using WooCommerce geolocation.', 'registration-guard' );
-
-		if ( ! class_exists( 'WooCommerce' ) ) {
-			$description .= ' ' . __( 'This feature requires WooCommerce and is currently unavailable.', 'registration-guard' );
+		if ( ! is_geo_provider_available() ) {
+			printf(
+				'<p>%s</p><p>%s</p>',
+				esc_html__( 'Geo-restriction is not available. No geo-IP provider is currently active.', 'registration-guard' ),
+				esc_html__( 'To enable this feature, install a plugin that provides IP geolocation, such as WooCommerce.', 'registration-guard' )
+			);
+			return;
 		}
 
-		printf( '<p>%s</p>', esc_html( $description ) );
+		printf(
+			'<p>%s</p>',
+			esc_html__( 'Restrict registration by country using IP geolocation.', 'registration-guard' )
+		);
 	}
 
 	// =========================================================================
@@ -677,16 +687,92 @@ class Settings {
 
 		printf( '<tbody>' );
 		foreach ( $entries as $entry ) {
+			/**
+			 * Filter a single event log row before rendering.
+			 *
+			 * Allows integrations to enrich log data (e.g. adding
+			 * geolocation to IP addresses). The returned array is
+			 * rendered directly into the table row.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param array    $row   {
+			 *     Column values for this row.
+			 *
+			 *     @type string $date       Created-at timestamp.
+			 *     @type string $event_type Event type identifier.
+			 *     @type string $user_id    User ID.
+			 *     @type string $message    Log message.
+			 *     @type string $ip_address IP address (may include enrichment HTML).
+			 * }
+			 * @param object   $entry Raw database row object.
+			 */
+			$ip_display = esc_html( $entry->ip_address );
+
+			if ( ! empty( $entry->ip_address ) && is_geo_provider_available() ) {
+				$geo = get_plugin()->get_geo_restriction();
+				$cc  = $geo->get_country_code( $entry->ip_address );
+
+				if ( '' !== $cc ) {
+					$flag       = self::country_code_to_flag( $cc );
+					$ip_display = sprintf(
+						'%s <span title="%s">%s %s</span>',
+						esc_html( $entry->ip_address ),
+						esc_attr( $cc ),
+						$flag,
+						esc_html( $cc )
+					);
+				}
+			}
+
+			$row = apply_filters(
+				'registration_guard_log_row',
+				array(
+					'date'       => esc_html( $entry->created_at ),
+					'event_type' => '<code>' . esc_html( $entry->event_type ) . '</code>',
+					'user_id'    => esc_html( $entry->user_id ),
+					'message'    => esc_html( $entry->message ),
+					'ip_address' => $ip_display,
+				),
+				$entry
+			);
+
 			printf( '<tr>' );
-			printf( '<td>%s</td>', esc_html( $entry->created_at ) );
-			printf( '<td><code>%s</code></td>', esc_html( $entry->event_type ) );
-			printf( '<td>%s</td>', esc_html( $entry->user_id ) );
-			printf( '<td>%s</td>', esc_html( $entry->message ) );
-			printf( '<td>%s</td>', esc_html( $entry->ip_address ) );
+			printf( '<td>%s</td>', wp_kses_post( $row['date'] ) );
+			printf( '<td>%s</td>', wp_kses_post( $row['event_type'] ) );
+			printf( '<td>%s</td>', wp_kses_post( $row['user_id'] ) );
+			printf( '<td>%s</td>', wp_kses_post( $row['message'] ) );
+			printf( '<td>%s</td>', wp_kses_post( $row['ip_address'] ) );
 			printf( '</tr>' );
 		}
 		printf( '</tbody>' );
 
 		printf( '</table>' );
+	}
+
+	/**
+	 * Convert a two-letter country code to a Unicode flag emoji.
+	 *
+	 * Each ASCII letter is offset to its Regional Indicator Symbol
+	 * counterpart (U+1F1E6..U+1F1FF). Two regional indicators form
+	 * a flag emoji in all modern browsers and operating systems.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $code Two-letter ISO 3166-1 alpha-2 country code.
+	 *
+	 * @return string Unicode flag emoji, or empty string if invalid.
+	 */
+	private static function country_code_to_flag( string $code ): string {
+		$result = '';
+
+		if ( 2 === strlen( $code ) && ctype_alpha( $code ) ) {
+			$code   = strtoupper( $code );
+			$first  = mb_chr( 0x1F1E6 + ord( $code[0] ) - ord( 'A' ) );
+			$second = mb_chr( 0x1F1E6 + ord( $code[1] ) - ord( 'A' ) );
+			$result = $first . $second;
+		}
+
+		return $result;
 	}
 }

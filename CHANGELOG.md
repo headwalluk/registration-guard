@@ -5,6 +5,39 @@ All notable changes to Registration Guard will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-03-09
+
+### Added
+- Integration architecture: `integrations/` directory with `plugins_loaded` convention for third-party plugin support
+- Pluggable geo-IP provider model via `registration_guard_geolocate_ip` filter — any plugin can supply geolocation data
+- Settings page shows informational notice when no geo-IP provider is available (hides geo fields)
+- Suppress WordPress core "set your password" email when double opt-in is active
+- Suppress WooCommerce "new account" email when double opt-in is active
+- Post-verification redirect to WordPress password reset form (single-email registration flow)
+- WooCommerce: redirect verified users to My Account page instead of wp-login.php
+- Centralised `Nonce_Challenge::enqueue_nonce_script()` for integrations to reuse
+- `registration_guard_nonce_script_data` filter for integrations to adjust front-end nonce config
+- `registration_guard_verification_redirect_url` filter for integrations to customise post-verification redirect
+- `registration_guard_log_row` filter for customising event log table rows
+- Event log IP address enrichment with Unicode country flags when geo-IP is available
+- Public API file `functions.php` with `registration_guard_get_plugin()` and `registration_guard_has_geo_provider()`
+- `Nonce_Challenge::check_nonce_token()` made public for integration reuse
+- `Geo_Restriction::get_country_code()` made public with optional IP parameter
+- `Plugin::get_nonce_challenge()` and `Plugin::get_geo_restriction()` accessors
+- Documentation: integration guide (`docs/integration-guide.md`)
+- Documentation: geo-IP provider guide (`docs/geo-ip-providers.md`)
+
+### Changed
+- WooCommerce integration moved from `includes/class-woocommerce.php` to `integrations/class-integration-woocommerce.php`
+- Geo-restriction no longer hardcoded to WooCommerce — uses filter-based provider model
+- Geo-restriction `is_active()` checks for any geo-IP provider, not just WooCommerce
+- Admin notice for geo-restriction updated to reference generic geo-IP providers
+- Geo-restriction section description updated ("IP geolocation" instead of "WooCommerce geolocation")
+
+### Removed
+- Direct `WC_Geolocation` calls from `Geo_Restriction` class (replaced by filter)
+- `Plugin::load_woocommerce()` method (replaced by integration architecture)
+
 ## [0.5.0] - 2026-03-09
 
 ### Added
