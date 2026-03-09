@@ -118,6 +118,12 @@ function get_now_formatted( string $format = 'Y-m-d H:i:s T' ): string {
 /**
  * Get client IP address.
  *
+ * Uses REMOTE_ADDR by default (not spoofable). Falls back to proxy headers
+ * only when REMOTE_ADDR is unavailable (e.g. some containerised environments).
+ *
+ * Sites behind trusted reverse proxies can override via the
+ * `registration_guard_client_ip` filter.
+ *
  * @since 1.0.0
  *
  * @return string IP address, or empty string if unavailable.
@@ -125,19 +131,31 @@ function get_now_formatted( string $format = 'Y-m-d H:i:s T' ): string {
 function get_ip_address(): string {
 	$ip = '';
 
-	if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-		$ip = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
+	if ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
+		$ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
 	} elseif ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
 		$forwarded = sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) );
 		$ips       = explode( ',', $forwarded );
 		$ip        = trim( $ips[0] );
-	} elseif ( ! empty( $_SERVER['REMOTE_ADDR'] ) ) {
-		$ip = sanitize_text_field( wp_unslash( $_SERVER['REMOTE_ADDR'] ) );
+	} elseif ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+		$ip = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
 	}
 
 	if ( ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 ) ) {
 		$ip = '';
 	}
+
+	/**
+	 * Filter the detected client IP address.
+	 *
+	 * Sites behind trusted reverse proxies (e.g. Cloudflare, AWS ALB) can use
+	 * this filter to read the real client IP from a trusted header.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $ip Detected IP address (from REMOTE_ADDR).
+	 */
+	$ip = (string) apply_filters( 'registration_guard_client_ip', $ip );
 
 	return $ip;
 }

@@ -195,12 +195,15 @@ class Integration_WooCommerce {
 			return;
 		}
 
-		$resend_url = add_query_arg(
-			array(
-				'action' => Email_Verification::AJAX_RESEND,
-				'uid'    => $user_id,
+		$resend_url = wp_nonce_url(
+			add_query_arg(
+				array(
+					'action' => Email_Verification::AJAX_RESEND,
+					'uid'    => $user_id,
+				),
+				admin_url( 'admin-ajax.php' )
 			),
-			admin_url( 'admin-ajax.php' )
+			'regguard_resend_' . $user_id
 		);
 
 		$message = sprintf(

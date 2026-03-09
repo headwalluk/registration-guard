@@ -113,6 +113,10 @@ Yes. Registration Guard provides a `registration_guard_skip_verification` filter
 * Stable release -- all features complete and tested
 * Translations: 8 language packs (DE, EL, EN_GB, ES, FR, IT, NL, PL)
 * GitHub Actions release workflow
+* Security: IP detection hardened -- REMOTE_ADDR first, proxy headers as fallback only
+* Security: CSRF protection on resend verification endpoint
+* Security: resend endpoint restricted to authenticated users only
+* New filter: `registration_guard_client_ip` for sites behind trusted reverse proxies
 
 = 0.6.0 =
 * Integration architecture: WooCommerce moved to `integrations/` with `plugins_loaded` convention

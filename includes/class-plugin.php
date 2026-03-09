@@ -100,7 +100,6 @@ class Plugin {
 		add_action( 'init', array( $this->email_verification, 'handle_verification_link' ) );
 		add_action( 'admin_init', array( $this->email_verification, 'block_unverified_admin' ) );
 		add_action( 'wp_ajax_' . Email_Verification::AJAX_RESEND, array( $this->email_verification, 'ajax_resend_verification' ) );
-		add_action( 'wp_ajax_nopriv_' . Email_Verification::AJAX_RESEND, array( $this->email_verification, 'ajax_resend_verification' ) );
 		add_filter( 'wp_new_user_notification_email', array( $this->email_verification, 'maybe_suppress_wp_new_user_email' ), 10, 3 );
 
 		// Geo-restriction hooks.

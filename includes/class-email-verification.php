@@ -152,12 +152,15 @@ class Email_Verification {
 			return;
 		}
 
-		$resend_url = add_query_arg(
-			array(
-				'action' => self::AJAX_RESEND,
-				'uid'    => $user_id,
+		$resend_url = wp_nonce_url(
+			add_query_arg(
+				array(
+					'action' => self::AJAX_RESEND,
+					'uid'    => $user_id,
+				),
+				admin_url( 'admin-ajax.php' )
 			),
-			admin_url( 'admin-ajax.php' )
+			'regguard_resend_' . $user_id
 		);
 
 		$message = sprintf(
@@ -184,14 +187,13 @@ class Email_Verification {
 	 * @since 1.0.0
 	 */
 	public function ajax_resend_verification(): void {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- rate-limited resend, no nonce needed for unverified users.
 		$user_id = isset( $_GET['uid'] ) ? absint( $_GET['uid'] ) : 0;
 
-		if ( 0 === $user_id ) {
+		if ( 0 === $user_id || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ?? '' ) ), 'regguard_resend_' . $user_id ) ) {
 			wp_die(
 				esc_html__( 'Invalid request.', 'registration-guard' ),
 				esc_html__( 'Error', 'registration-guard' ),
-				array( 'response' => 400 )
+				array( 'response' => 403 )
 			);
 		}
 

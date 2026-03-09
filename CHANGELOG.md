@@ -10,9 +10,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Translations: `.pot` file and 8 language packs (DE, EL, EN_GB, ES, FR, IT, NL, PL)
 - GitHub Actions release workflow with `.distignore`
+- `registration_guard_client_ip` filter for sites behind trusted reverse proxies
+- CSRF protection (WordPress nonce) on resend verification email endpoint
 
 ### Changed
 - Stable release — all features complete and tested
+- IP detection now uses `REMOTE_ADDR` first, proxy headers as fallback only (prevents IP spoofing)
+- Resend verification endpoint restricted to authenticated users only
 
 ## [0.6.0] - 2026-03-09
 
