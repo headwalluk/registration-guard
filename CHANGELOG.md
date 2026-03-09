@@ -5,6 +5,20 @@ All notable changes to Registration Guard will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-03-09
+
+### Added
+- Event logger with custom `{prefix}regguard_log` table, `dbDelta()` creation, and daily pruning cron
+- JavaScript nonce challenge: admin-ajax endpoint with referer validation, rate limiting, minimum elapsed time, and front-end script
+- Email double opt-in: tokenised verification links, hashed token storage, wp_die() interstitial, resend with rate limiting
+- Skip logic for admin-created users, WP-CLI, REST API, checkout registrations, and custom filter
+- Plain text verification email template
+- Account cleanup cron: hourly batch deletion of expired unverified accounts (safe roles only)
+- WooCommerce My Account integration: nonce field, nonce validation, unverified user blocking (checkout excluded)
+- Geo-restriction: allowlist/blocklist modes via `WC_Geolocation`, configurable fail action
+- Admin notice when geo-restriction enabled without WooCommerce
+- Clean uninstall handler: removes all options, user meta, transients, log table, and cron hooks
+
 ## [0.3.0] - 2026-03-09
 
 ### Changed

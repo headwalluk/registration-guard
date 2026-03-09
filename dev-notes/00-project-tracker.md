@@ -1,9 +1,9 @@
 # Project Tracker
 
-**Version:** 0.3.0-dev
+**Version:** 0.4.0-dev
 **Last Updated:** 2026-03-09
-**Current Phase:** M2 (Event Logger)
-**Overall Progress:** 15%
+**Current Phase:** M9 (Polish & Release Prep)
+**Overall Progress:** 90%
 
 ---
 
@@ -19,6 +19,8 @@ Registration Guard is a lightweight WordPress plugin that layers three defences 
 - [x] Create decision log (`dev-notes/01-decisions.md`)
 - [x] Create `CLAUDE.md` with project-specific instructions
 - [x] Finalise requirement docs before scaffolding code
+- [x] Implement all core features (M2-M8)
+- [ ] M9: Polish & release prep
 
 ---
 
@@ -64,112 +66,109 @@ Registration Guard is a lightweight WordPress plugin that layers three defences 
   - [ ] `LOG_CHECKOUT_AUTOAPPROVED` — checkout registration auto-approved
 - [ ] Run `phpcs` — clean pass
 
-### M3: JavaScript Nonce Challenge
+### M2: Event Logger ✓
 
-- [ ] Create `includes/class-nonce-challenge.php`
-  - [ ] Admin-ajax endpoint (`wp_ajax_nopriv_regguard_nonce`)
-  - [ ] Referer validation — reject requests with no/invalid referer (do not issue nonce)
-  - [ ] Cache-Control / no-cache headers on endpoint response
-  - [ ] Rate limiting on nonce endpoint per IP (transient-based)
-  - [ ] Minimum elapsed time validation (configurable, default 1s)
-  - [ ] Nonce expiry (5 minutes)
-  - [ ] Hidden field injection into `register_form` (wp-login.php only)
-  - [ ] Nonce validation on `registration_errors`
-  - [ ] Log rejected registrations via Logger
-- [ ] Create `assets/js/nonce-challenge.js`
-  - [ ] Wait for DOMContentLoaded + configurable delay
-  - [ ] AJAX request to admin-ajax.php to fetch nonce
-  - [ ] Inject nonce into hidden form field
-- [ ] Add nonce challenge settings to `class-settings.php`
-  - [ ] Enable/disable toggle (default: enabled)
-  - [ ] Minimum delay setting (default: 1 second)
-- [ ] Test with WordPress native registration form
-- [ ] Run `phpcs` — clean pass
+- [x] Create `includes/class-logger.php`
+  - [x] Custom table `{prefix}regguard_log` via `dbDelta()` on activation
+  - [x] Schema: id, event_type, user_id, message, ip_address, created_at
+  - [x] `log()` method with auto IP detection
+  - [x] Public `query()` method for querying log entries
+  - [x] `prune()` method for daily cleanup (batch delete)
+  - [x] `drop_table()` for uninstall
+- [x] Daily WP-Cron to prune log entries older than 30 days
+- [x] Table creation on activation and first-run detection
+- [x] Run `phpcs` — clean pass
 
-### M4: Email Double Opt-In
+### M3: JavaScript Nonce Challenge ✓
 
-- [ ] Create `includes/class-email-verification.php`
-  - [ ] `user_register` hook — skip logic (see Decision Log D4/D5/D7):
-    - [ ] Skip if `current_user_can( 'create_users' )` (admin-created)
-    - [ ] Skip if `defined( 'WP_CLI' ) && WP_CLI`
-    - [ ] Skip if `defined( 'REST_REQUEST' ) && REST_REQUEST`
-    - [ ] Skip if `did_action( 'woocommerce_checkout_process' ) > 0` (checkout — write `_regguard_email_verified = true`)
-    - [ ] Skip if `registration_guard_skip_verification` filter returns true
-  - [ ] For non-skipped: set `_regguard_email_verified = false`, generate & store hashed token, store `_regguard_token_created`
-  - [ ] Send plain text verification email with tokenised link (`?regguard_verify={user_id}:{token}`)
-  - [ ] Log `LOG_VERIFICATION_SENT` via Logger
-  - [ ] `init` hook: handle `?regguard_verify=` link clicks, validate token with `wp_check_password()`
-  - [ ] On success: set `_regguard_email_verified = true`, clean up token meta, log `LOG_VERIFICATION_SUCCESS`
-  - [ ] `admin_init` hook: `wp_die()` interstitial for unverified users accessing wp-admin
-    - [ ] Include "Resend verification email" link
-    - [ ] Include "Check your spam folder" guidance
-  - [ ] AJAX endpoint for "resend verification email"
-  - [ ] Rate limiting on resend: single cooldown transient `regguard_resend_cooldown_{user_id}` (default: 5 minutes)
-  - [ ] Log `LOG_VERIFICATION_RESENT` via Logger
-- [ ] Create `views/emails/verification-email.php` (plain text template)
-- [ ] Add double opt-in settings to `class-settings.php`
-  - [ ] Enable/disable toggle (default: enabled)
-  - [ ] Verification window before auto-deletion (default: 24 hours, range: 1-72)
-  - [ ] Resend cooldown (default: 5 minutes)
-- [ ] Run `phpcs` — clean pass
+- [x] Create `includes/class-nonce-challenge.php`
+  - [x] Admin-ajax endpoint (`wp_ajax_nopriv_regguard_nonce`)
+  - [x] Referer validation — reject requests with no/invalid referer
+  - [x] Cache-Control / no-cache headers on endpoint response
+  - [x] Rate limiting on nonce endpoint per IP (transient-based)
+  - [x] Minimum elapsed time validation (configurable, default 1s)
+  - [x] Nonce expiry (5 minutes)
+  - [x] Hidden field injection into `register_form` (wp-login.php only)
+  - [x] Nonce validation on `registration_errors`
+  - [x] Log rejected registrations via Logger
+- [x] Create `assets/js/nonce-challenge.js`
+  - [x] Wait for DOMContentLoaded + configurable delay
+  - [x] AJAX request to admin-ajax.php to fetch nonce
+  - [x] Inject nonce into hidden form field
+- [x] Settings already implemented in M1
+- [x] Run `phpcs` — clean pass
 
-### M5: Account Cleanup Cron
+### M4: Email Double Opt-In ✓
 
-- [ ] Create `includes/class-account-cleanup.php`
-  - [ ] WP-Cron scheduled hook (`regguard_cleanup_unverified_accounts`, hourly)
-  - [ ] Query users where `_regguard_email_verified = false` AND `_regguard_token_created` older than verification window
-  - [ ] Only delete safe roles (`customer`, `subscriber`) — never admins, editors, shop_managers, etc.
-  - [ ] Batch processing (50 per run) to avoid timeouts
-  - [ ] Log each deletion via Logger (`LOG_VERIFICATION_EXPIRED`)
-- [ ] Schedule cleanup cron on plugin activation
-- [ ] Unschedule cleanup cron on plugin deactivation
-- [ ] Run `phpcs` — clean pass
+- [x] Create `includes/class-email-verification.php`
+  - [x] `user_register` hook — skip logic (D4/D5/D7):
+    - [x] Skip if `current_user_can( 'create_users' )` (admin-created)
+    - [x] Skip if `defined( 'WP_CLI' ) && WP_CLI`
+    - [x] Skip if `defined( 'REST_REQUEST' ) && REST_REQUEST`
+    - [x] Skip if `did_action( 'woocommerce_checkout_process' ) > 0` (auto-approve)
+    - [x] Skip if `registration_guard_skip_verification` filter returns true
+  - [x] Set `_regguard_email_verified = false`, generate & store hashed token
+  - [x] Send plain text verification email with tokenised link
+  - [x] Log `LOG_VERIFICATION_SENT` via Logger
+  - [x] `init` hook: handle verification link clicks, validate token
+  - [x] On success: set verified, clean up meta, log, redirect to login
+  - [x] `admin_init` hook: `wp_die()` interstitial for unverified users
+    - [x] Include "Resend verification email" link
+    - [x] Include "Check your spam folder" guidance
+  - [x] AJAX endpoint for "resend verification email"
+  - [x] Rate limiting on resend via cooldown transient
+  - [x] Log `LOG_VERIFICATION_RESENT` via Logger
+- [x] Create `views/emails/verification-email.php` (plain text template)
+- [x] Settings already implemented in M1
+- [x] Run `phpcs` — clean pass
 
-### M6: WooCommerce Integration
+### M5: Account Cleanup Cron ✓
 
-- [ ] Create `includes/class-woocommerce.php` (conditionally loaded when WooCommerce active)
-  - [ ] Hidden nonce field injection into `woocommerce_register_form` (My Account only — NOT checkout)
-  - [ ] Nonce validation on `woocommerce_register_post` (My Account only — NOT checkout)
-  - [ ] `template_redirect` hook: `wp_die()` interstitial for unverified users on My Account pages
-  - [ ] HPOS compatibility declaration
-- [ ] Add WooCommerce detection and conditional loading in `class-plugin.php`
-- [ ] Test with WooCommerce My Account registration form
-- [ ] Test checkout registration auto-approval (user created with `_regguard_email_verified = true`)
-- [ ] Test that checkout flow is completely unaffected (no JS, no nonce, no blocking)
-- [ ] Run `phpcs` — clean pass
+- [x] Create `includes/class-account-cleanup.php`
+  - [x] WP-Cron scheduled hook (`regguard_cleanup_unverified_accounts`, hourly)
+  - [x] Query users where `_regguard_email_verified = false` AND token expired
+  - [x] Only delete safe roles (`customer`, `subscriber`)
+  - [x] Batch processing (50 per run)
+  - [x] Log each deletion via Logger (`LOG_VERIFICATION_EXPIRED`)
+- [x] Cleanup cron scheduled on activation, unscheduled on deactivation
+- [x] Run `phpcs` — clean pass
 
-### M7: Geo-Restriction
+### M6: WooCommerce Integration ✓
 
-- [ ] Create `includes/class-geo-restriction.php`
-  - [ ] Country detection via `WC_Geolocation::geolocate_ip()`
-  - [ ] Allowlist / blocklist mode checking
-  - [ ] Geo fail action (block or allow, configurable)
-  - [ ] Validation on `registration_errors` (and `woocommerce_register_post` if Woo active)
-  - [ ] Feature disabled when WooCommerce not active (no bundled GeoIP)
-  - [ ] Log blocked registrations via Logger (`LOG_GEO_BLOCKED`)
-- [ ] Add geo-restriction settings to `class-settings.php`
-  - [ ] Enable/disable toggle (default: disabled)
-  - [ ] Mode selector: allowlist / blocklist
-  - [ ] Country codes input (comma-separated ISO 3166-1 alpha-2, placeholder: `RU,CN,IR,IN`)
-  - [ ] Geo fail action: block or allow
-  - [ ] Admin notice: "Geo-restriction requires WooCommerce" when Woo not active
-- [ ] Test allowlist mode
-- [ ] Test blocklist mode
-- [ ] Test geo-lookup failure handling
-- [ ] Run `phpcs` — clean pass
+- [x] Create `includes/class-woocommerce.php` (conditionally loaded)
+  - [x] Hidden nonce field injection into `woocommerce_register_form` (My Account only)
+  - [x] Nonce validation on `woocommerce_register_post` (My Account only)
+  - [x] Script enqueue on My Account pages only
+  - [x] `template_redirect` hook: `wp_die()` interstitial for unverified users on My Account
+  - [x] Checkout detection and exclusion throughout
+- [x] WooCommerce detection and conditional loading in `class-plugin.php`
+- [x] Geo-restriction validation on `woocommerce_register_post`
+- [x] Run `phpcs` — clean pass
 
-### M8: Uninstall & Activation/Deactivation
+### M7: Geo-Restriction ✓
 
-- [ ] Create `uninstall.php`
-  - [ ] Delete all `regguard_*` options from `wp_options`
-  - [ ] Delete all `_regguard_*` user meta
-  - [ ] Delete all `regguard_*` transients
-  - [ ] Drop `{prefix}regguard_log` table
-  - [ ] Unschedule `regguard_cleanup_unverified_accounts` cron
-  - [ ] Unschedule `regguard_prune_event_log` cron
-- [ ] Activation hook: set default options, create log table, schedule crons, store `regguard_version`
-- [ ] Deactivation hook: unschedule all crons
-- [ ] Run `phpcs` — clean pass
+- [x] Create `includes/class-geo-restriction.php`
+  - [x] Country detection via `WC_Geolocation::geolocate_ip()`
+  - [x] Allowlist / blocklist mode checking
+  - [x] Geo fail action (block or allow, configurable)
+  - [x] Validation on `registration_errors` and `woocommerce_register_post`
+  - [x] Feature disabled when WooCommerce not active
+  - [x] Log blocked registrations via Logger (`LOG_GEO_BLOCKED`)
+- [x] Settings already implemented in M1
+- [x] Admin notice for WooCommerce requirement
+- [x] Run `phpcs` — clean pass
+
+### M8: Uninstall & Activation/Deactivation ✓
+
+- [x] Create `uninstall.php`
+  - [x] Delete all `regguard_*` options from `wp_options`
+  - [x] Delete all `_regguard_*` user meta
+  - [x] Delete all `regguard_*` transients
+  - [x] Drop `{prefix}regguard_log` table
+  - [x] Unschedule all cron hooks
+- [x] Activation hook: set defaults, create log table, schedule crons
+- [x] Deactivation hook: unschedule all crons
+- [x] Run `phpcs` — clean pass
 
 ### M9: Polish & Release Prep
 

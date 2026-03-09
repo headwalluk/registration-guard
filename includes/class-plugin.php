@@ -29,17 +29,81 @@ class Plugin {
 	private Settings $settings;
 
 	/**
+	 * Event logger instance.
+	 *
+	 * @since 1.0.0
+	 * @var Logger
+	 */
+	private Logger $logger;
+
+	/**
+	 * Nonce challenge instance.
+	 *
+	 * @since 1.0.0
+	 * @var Nonce_Challenge
+	 */
+	private Nonce_Challenge $nonce_challenge;
+
+	/**
+	 * Email verification instance.
+	 *
+	 * @since 1.0.0
+	 * @var Email_Verification
+	 */
+	private Email_Verification $email_verification;
+
+	/**
+	 * Account cleanup instance.
+	 *
+	 * @since 1.0.0
+	 * @var Account_Cleanup
+	 */
+	private Account_Cleanup $account_cleanup;
+
+	/**
+	 * Geo-restriction instance.
+	 *
+	 * @since 1.0.0
+	 * @var Geo_Restriction
+	 */
+	private Geo_Restriction $geo_restriction;
+
+	/**
 	 * Initialize hooks and load dependencies.
 	 *
 	 * @since 1.0.0
 	 */
 	public function run(): void {
-		$this->settings = new Settings();
+		$this->settings           = new Settings();
+		$this->logger             = new Logger();
+		$this->nonce_challenge    = new Nonce_Challenge();
+		$this->email_verification = new Email_Verification();
+		$this->account_cleanup    = new Account_Cleanup();
+		$this->geo_restriction    = new Geo_Restriction();
 
 		add_action( 'init', array( $this, 'load_textdomain' ) );
 		add_action( 'admin_init', array( $this, 'check_first_run' ), 1 );
 		add_action( 'admin_init', array( $this->settings, 'register_settings' ) );
 		add_action( 'admin_menu', array( $this->settings, 'add_settings_page' ) );
+		add_action( CRON_PRUNE_LOG, array( $this->logger, 'prune' ) );
+		add_action( CRON_CLEANUP_ACCOUNTS, array( $this->account_cleanup, 'cleanup' ) );
+
+		// Nonce challenge hooks.
+		add_action( 'login_enqueue_scripts', array( $this->nonce_challenge, 'enqueue_script' ) );
+		add_action( 'register_form', array( $this->nonce_challenge, 'render_nonce_field' ) );
+		add_action( 'wp_ajax_nopriv_' . Nonce_Challenge::AJAX_ACTION, array( $this->nonce_challenge, 'ajax_generate_nonce' ) );
+		add_filter( 'registration_errors', array( $this->nonce_challenge, 'validate_nonce' ) );
+
+		// Email verification hooks.
+		add_action( 'user_register', array( $this->email_verification, 'handle_registration' ) );
+		add_action( 'init', array( $this->email_verification, 'handle_verification_link' ) );
+		add_action( 'admin_init', array( $this->email_verification, 'block_unverified_admin' ) );
+		add_action( 'wp_ajax_' . Email_Verification::AJAX_RESEND, array( $this->email_verification, 'ajax_resend_verification' ) );
+		add_action( 'wp_ajax_nopriv_' . Email_Verification::AJAX_RESEND, array( $this->email_verification, 'ajax_resend_verification' ) );
+
+		// Geo-restriction hooks.
+		add_filter( 'registration_errors', array( $this->geo_restriction, 'validate_registration' ) );
+		add_action( 'admin_notices', array( $this, 'admin_notices' ) );
 
 		if ( class_exists( 'WooCommerce' ) ) {
 			$this->load_woocommerce();
@@ -73,6 +137,7 @@ class Plugin {
 				}
 			}
 
+			$this->logger->create_table();
 			add_option( OPT_VERSION, REGISTRATION_GUARD_VERSION, '', 'yes' );
 
 			if ( ! wp_next_scheduled( CRON_CLEANUP_ACCOUNTS ) ) {
@@ -88,12 +153,32 @@ class Plugin {
 	}
 
 	/**
+	 * Get the logger instance.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return Logger The logger instance.
+	 */
+	public function get_logger(): Logger {
+		return $this->logger;
+	}
+
+	/**
 	 * Load WooCommerce-specific functionality.
+	 *
+	 * Registers hooks for WooCommerce My Account registration
+	 * protection. Checkout is deliberately excluded.
 	 *
 	 * @since 1.0.0
 	 */
 	private function load_woocommerce(): void {
-		// WooCommerce class will be loaded here in M6.
+		$woo = new WooCommerce();
+
+		add_action( 'wp_enqueue_scripts', array( $woo, 'enqueue_script' ) );
+		add_action( 'woocommerce_register_form', array( $woo, 'render_nonce_field' ) );
+		add_filter( 'woocommerce_register_post', array( $woo, 'validate_nonce' ), 10, 3 );
+		add_action( 'template_redirect', array( $woo, 'block_unverified_myaccount' ) );
+		add_filter( 'woocommerce_register_post', array( $this->geo_restriction, 'validate_woocommerce_registration' ), 10, 3 );
 	}
 
 	/**

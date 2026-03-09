@@ -3,7 +3,7 @@
  * Plugin Name: Registration Guard
  * Plugin URI: https://github.com/headwalluk/registration-guard
  * Description: Lightweight bot registration protection for WordPress and WooCommerce. Three layered defences with zero configuration required.
- * Version: 0.3.0
+ * Version: 0.4.0
  * Requires at least: 6.0
  * Requires PHP: 8.0
  * Author: Paul Faulkner
@@ -19,7 +19,7 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || die();
 
-define( 'REGISTRATION_GUARD_VERSION', '0.3.0' );
+define( 'REGISTRATION_GUARD_VERSION', '0.4.0' );
 define( 'REGISTRATION_GUARD_FILE', __FILE__ );
 define( 'REGISTRATION_GUARD_PATH', plugin_dir_path( __FILE__ ) );
 define( 'REGISTRATION_GUARD_URL', plugin_dir_url( __FILE__ ) );
@@ -30,6 +30,12 @@ require_once REGISTRATION_GUARD_PATH . 'functions-private.php';
 
 require_once REGISTRATION_GUARD_PATH . 'includes/class-plugin.php';
 require_once REGISTRATION_GUARD_PATH . 'includes/class-settings.php';
+require_once REGISTRATION_GUARD_PATH . 'includes/class-logger.php';
+require_once REGISTRATION_GUARD_PATH . 'includes/class-nonce-challenge.php';
+require_once REGISTRATION_GUARD_PATH . 'includes/class-email-verification.php';
+require_once REGISTRATION_GUARD_PATH . 'includes/class-account-cleanup.php';
+require_once REGISTRATION_GUARD_PATH . 'includes/class-geo-restriction.php';
+require_once REGISTRATION_GUARD_PATH . 'includes/class-woocommerce.php';
 
 /**
  * Activation hook.
@@ -46,6 +52,9 @@ function registration_guard_activate(): void {
 			add_option( $key, $value, '', 'yes' );
 		}
 	}
+
+	$logger = new Registration_Guard\Logger();
+	$logger->create_table();
 
 	add_option( Registration_Guard\OPT_VERSION, REGISTRATION_GUARD_VERSION, '', 'yes' );
 
