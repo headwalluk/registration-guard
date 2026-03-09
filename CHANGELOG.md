@@ -5,6 +5,18 @@ All notable changes to Registration Guard will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-03-09
+
+### Added
+- Tabbed admin page with Settings and Event Log tabs (hash-based navigation with deep linking)
+- Event log viewer showing last 100 entries in a WordPress-native table
+- Admin JS for tab switching with browser back/forward support
+
+### Changed
+- Geo-restriction country code sanitisation: split on commas and whitespace, deduplicate, sort alphabetically
+- Default blocked countries placeholder updated to `BY,IQ,IR,KP,RU,SG`
+- Country codes placeholder moved to `PLACEHOLDER_GEO_COUNTRIES` constant
+
 ## [0.4.0] - 2026-03-09
 
 ### Added

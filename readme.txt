@@ -4,7 +4,7 @@ Tags: security, registration, anti-spam, bot-protection, woocommerce
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
-Stable tag: 0.4.0
+Stable tag: 0.5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -109,6 +109,11 @@ Yes. Registration Guard provides a `registration_guard_skip_verification` filter
 
 == Changelog ==
 
+= 0.5.0 =
+* Tabbed admin page with Settings and Event Log tabs
+* Robust geo-restriction country code sanitisation
+* Updated default blocked countries placeholder
+
 = 0.4.0 =
 * Event logger with custom database table and daily pruning
 * JavaScript nonce challenge for registration form protection
@@ -134,6 +139,9 @@ Yes. Registration Guard provides a `registration_guard_skip_verification` filter
 * Project scaffolding and documentation
 
 == Upgrade Notice ==
+
+= 0.5.0 =
+Tabbed admin page and improved country code sanitisation.
 
 = 0.4.0 =
 All three protection layers implemented with full WooCommerce integration.

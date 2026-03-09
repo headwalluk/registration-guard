@@ -1,6 +1,6 @@
 # Project Tracker
 
-**Version:** 0.4.0-dev
+**Version:** 0.5.0-dev
 **Last Updated:** 2026-03-09
 **Current Phase:** M9 (Polish & Release Prep)
 **Overall Progress:** 90%

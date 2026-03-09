@@ -73,18 +73,19 @@ const GEO_FAIL_ALLOW = 'allow';
  *
  * @since 1.0.0
  */
-const DEF_NONCE_ENABLED       = true;
-const DEF_NONCE_MIN_DELAY     = 1;
-const DEF_NONCE_MAX_DELAY     = 10;
-const DEF_DOUBLE_OPTIN        = true;
-const DEF_VERIFICATION_WINDOW = 24;
-const MAX_VERIFICATION_WINDOW = 72;
-const DEF_RESEND_COOLDOWN     = 5 * MINUTE_IN_SECONDS;
-const MAX_RESEND_COOLDOWN     = HOUR_IN_SECONDS;
-const DEF_GEO_ENABLED         = false;
-const DEF_GEO_MODE            = GEO_MODE_BLOCKLIST;
-const DEF_GEO_COUNTRIES       = '';
-const DEF_GEO_FAIL_ACTION     = GEO_FAIL_BLOCK;
+const DEF_NONCE_ENABLED         = true;
+const DEF_NONCE_MIN_DELAY       = 1;
+const DEF_NONCE_MAX_DELAY       = 10;
+const DEF_DOUBLE_OPTIN          = true;
+const DEF_VERIFICATION_WINDOW   = 24;
+const MAX_VERIFICATION_WINDOW   = 72;
+const DEF_RESEND_COOLDOWN       = 5 * MINUTE_IN_SECONDS;
+const MAX_RESEND_COOLDOWN       = HOUR_IN_SECONDS;
+const DEF_GEO_ENABLED           = false;
+const DEF_GEO_MODE              = GEO_MODE_BLOCKLIST;
+const DEF_GEO_COUNTRIES         = '';
+const PLACEHOLDER_GEO_COUNTRIES = 'BY,IQ,IR,KP,RU,SG';
+const DEF_GEO_FAIL_ACTION       = GEO_FAIL_BLOCK;
 
 // =============================================================================
 // Rate Limiting

@@ -421,7 +421,7 @@ class Settings {
 			'<input type="text" name="%s" value="%s" class="regular-text" placeholder="%s" /> <p class="description">%s</p>',
 			esc_attr( OPT_GEO_COUNTRIES ),
 			esc_attr( $value ),
-			esc_attr( 'RU,CN,IR,IN' ),
+			esc_attr( PLACEHOLDER_GEO_COUNTRIES ),
 			esc_html__( 'Comma-separated ISO 3166-1 alpha-2 country codes (e.g. GB,US,FR,DE).', 'registration-guard' )
 		);
 	}
@@ -542,15 +542,18 @@ class Settings {
 	 */
 	public function sanitize_geo_countries( mixed $value ): string {
 		$raw   = sanitize_text_field( (string) $value );
-		$codes = array_map( 'trim', explode( ',', $raw ) );
+		$parts = preg_split( '/[\s,]+/', $raw, -1, PREG_SPLIT_NO_EMPTY );
 		$valid = array();
 
-		foreach ( $codes as $code ) {
-			$code = strtoupper( $code );
+		foreach ( $parts as $part ) {
+			$code = strtoupper( trim( $part ) );
 			if ( preg_match( '/^[A-Z]{2}$/', $code ) ) {
 				$valid[] = $code;
 			}
 		}
+
+		$valid = array_unique( $valid );
+		sort( $valid );
 
 		return implode( ',', $valid );
 	}
@@ -580,7 +583,7 @@ class Settings {
 	// =========================================================================
 
 	/**
-	 * Render the settings page.
+	 * Render the settings page with tabbed navigation.
 	 *
 	 * @since 1.0.0
 	 */
@@ -591,6 +594,21 @@ class Settings {
 
 		printf( '<div class="wrap">' );
 		printf( '<h1>%s</h1>', esc_html( get_admin_page_title() ) );
+
+		// Tab navigation.
+		printf( '<nav class="nav-tab-wrapper wp-clearfix">' );
+		printf(
+			'<a href="#settings" class="nav-tab nav-tab-active" data-tab="settings">%s</a>',
+			esc_html__( 'Settings', 'registration-guard' )
+		);
+		printf(
+			'<a href="#log" class="nav-tab" data-tab="log">%s</a>',
+			esc_html__( 'Event Log', 'registration-guard' )
+		);
+		printf( '</nav>' );
+
+		// Settings tab panel.
+		printf( '<div id="settings-panel" class="regguard-tab-panel">' );
 		printf( '<form method="post" action="options.php">' );
 
 		settings_fields( 'regguard_settings' );
@@ -599,5 +617,76 @@ class Settings {
 
 		printf( '</form>' );
 		printf( '</div>' );
+
+		// Log tab panel.
+		printf( '<div id="log-panel" class="regguard-tab-panel" style="display:none;">' );
+		$this->render_log_tab();
+		printf( '</div>' );
+
+		printf( '</div>' );
+	}
+
+	/**
+	 * Enqueue admin assets on the plugin settings page.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $hook_suffix The current admin page hook suffix.
+	 */
+	public function enqueue_admin_assets( string $hook_suffix ): void {
+		if ( 'settings_page_registration-guard' !== $hook_suffix ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'regguard-admin',
+			REGISTRATION_GUARD_URL . 'assets/js/admin.js',
+			array(),
+			REGISTRATION_GUARD_VERSION,
+			true
+		);
+	}
+
+	// =========================================================================
+	// Log Tab
+	// =========================================================================
+
+	/**
+	 * Render the event log tab content.
+	 *
+	 * @since 1.0.0
+	 */
+	private function render_log_tab(): void {
+		$logger  = get_plugin()->get_logger();
+		$entries = $logger->query( array( 'limit' => 100 ) );
+
+		if ( 0 === count( $entries ) ) {
+			printf( '<p>%s</p>', esc_html__( 'No log entries found.', 'registration-guard' ) );
+			return;
+		}
+
+		printf( '<table class="widefat fixed striped">' );
+
+		printf( '<thead><tr>' );
+		printf( '<th>%s</th>', esc_html__( 'Date', 'registration-guard' ) );
+		printf( '<th>%s</th>', esc_html__( 'Event', 'registration-guard' ) );
+		printf( '<th>%s</th>', esc_html__( 'User ID', 'registration-guard' ) );
+		printf( '<th>%s</th>', esc_html__( 'Message', 'registration-guard' ) );
+		printf( '<th>%s</th>', esc_html__( 'IP Address', 'registration-guard' ) );
+		printf( '</tr></thead>' );
+
+		printf( '<tbody>' );
+		foreach ( $entries as $entry ) {
+			printf( '<tr>' );
+			printf( '<td>%s</td>', esc_html( $entry->created_at ) );
+			printf( '<td><code>%s</code></td>', esc_html( $entry->event_type ) );
+			printf( '<td>%s</td>', esc_html( $entry->user_id ) );
+			printf( '<td>%s</td>', esc_html( $entry->message ) );
+			printf( '<td>%s</td>', esc_html( $entry->ip_address ) );
+			printf( '</tr>' );
+		}
+		printf( '</tbody>' );
+
+		printf( '</table>' );
 	}
 }

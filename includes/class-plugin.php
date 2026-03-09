@@ -85,6 +85,7 @@ class Plugin {
 		add_action( 'admin_init', array( $this, 'check_first_run' ), 1 );
 		add_action( 'admin_init', array( $this->settings, 'register_settings' ) );
 		add_action( 'admin_menu', array( $this->settings, 'add_settings_page' ) );
+		add_action( 'admin_enqueue_scripts', array( $this->settings, 'enqueue_admin_assets' ) );
 		add_action( CRON_PRUNE_LOG, array( $this->logger, 'prune' ) );
 		add_action( CRON_CLEANUP_ACCOUNTS, array( $this->account_cleanup, 'cleanup' ) );
 
