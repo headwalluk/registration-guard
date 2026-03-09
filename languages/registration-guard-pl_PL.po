@@ -1,8 +1,5 @@
-# Copyright (C) 2026 Paul Faulkner
-# This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Language: pl_PL\n"
 "Project-Id-Version: Registration Guard 0.6.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/registration-guard\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -12,6 +9,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-03-09T17:51:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Language: pl_PL\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: registration-guard\n"
 
@@ -68,70 +66,70 @@ msgstr "Ten link weryfikacyjny jest nieprawidłowy lub wygasł."
 msgid "Email address verified successfully."
 msgstr "Adres e-mail został pomyślnie zweryfikowany."
 
-#: includes/class-email-verification.php:165
-#: includes/class-email-verification.php:176
-#: integrations/class-integration-woocommerce.php:208
-#: integrations/class-integration-woocommerce.php:219
+#: includes/class-email-verification.php:168
+#: includes/class-email-verification.php:179
+#: integrations/class-integration-woocommerce.php:211
+#: integrations/class-integration-woocommerce.php:222
 msgid "Email Verification Required"
 msgstr "Wymagana weryfikacja adresu e-mail"
 
-#: includes/class-email-verification.php:166
+#: includes/class-email-verification.php:169
 msgid "You must verify your email address before accessing this site. Please check your inbox for the verification email."
 msgstr "Przed uzyskaniem dostępu do tej witryny należy zweryfikować swój adres e-mail. Proszę sprawdzić skrzynkę odbiorczą pod kątem wiadomości e-mail z linkiem weryfikacyjnym."
 
-#: includes/class-email-verification.php:167
-#: integrations/class-integration-woocommerce.php:210
+#: includes/class-email-verification.php:170
+#: integrations/class-integration-woocommerce.php:213
 msgid "If you cannot find the email, check your spam or junk folder."
 msgstr "Jeśli nie możesz znaleźć wiadomości e-mail, sprawdź folder spam lub folder z niechcianymi wiadomościami."
 
-#: includes/class-email-verification.php:169
-#: integrations/class-integration-woocommerce.php:212
+#: includes/class-email-verification.php:172
+#: integrations/class-integration-woocommerce.php:215
 msgid "Resend verification email"
 msgstr "Wyślij ponownie wiadomość e-mail z linkiem weryfikacyjnym"
 
-#: includes/class-email-verification.php:171
-#: integrations/class-integration-woocommerce.php:214
+#: includes/class-email-verification.php:174
+#: integrations/class-integration-woocommerce.php:217
 msgid "Log out"
 msgstr "Wyloguj się"
 
-#: includes/class-email-verification.php:192
+#: includes/class-email-verification.php:194
 msgid "Invalid request."
 msgstr "Nieprawidłowe żądanie."
 
-#: includes/class-email-verification.php:193
+#: includes/class-email-verification.php:195
 msgid "Error"
 msgstr "Błąd"
 
-#: includes/class-email-verification.php:201
+#: includes/class-email-verification.php:203
 msgid "This account is already verified."
 msgstr "To konto zostało już zweryfikowane."
 
-#: includes/class-email-verification.php:202
+#: includes/class-email-verification.php:204
 msgid "Already Verified"
 msgstr "Już zweryfikowane"
 
-#: includes/class-email-verification.php:210
+#: includes/class-email-verification.php:212
 msgid "Please wait before requesting another verification email."
 msgstr "Proszę poczekać przed wysłaniem kolejnej prośby o wiadomość e-mail z linkiem weryfikacyjnym."
 
-#: includes/class-email-verification.php:211
+#: includes/class-email-verification.php:213
 msgid "Please Wait"
 msgstr "Proszę czekać"
 
-#: includes/class-email-verification.php:228
+#: includes/class-email-verification.php:230
 msgid "Verification email resent by user request."
 msgstr "Wiadomość e-mail z linkiem weryfikacyjnym wysłana ponownie na prośbę użytkownika."
 
-#: includes/class-email-verification.php:232
+#: includes/class-email-verification.php:234
 msgid "A new verification email has been sent. Please check your inbox."
 msgstr "Wysłaliśmy Ci nowy e-mail z linkiem do potwierdzenia. Sprawdź swoją skrzynkę odbiorczą."
 
-#: includes/class-email-verification.php:233
+#: includes/class-email-verification.php:235
 msgid "Email Sent"
 msgstr "Wysłano wiadomość e-mail"
 
 #. translators: %s: site name
-#: includes/class-email-verification.php:323
+#: includes/class-email-verification.php:325
 #, php-format
 msgid "[%s] Please verify your email address"
 msgstr "[%s] Proszę zweryfikować swój adres e-mail."
@@ -163,11 +161,11 @@ msgstr "<strong>Błąd:</strong> Nie udało się przeprowadzić weryfikacji bezp
 msgid "Registration blocked: nonce challenge failed."
 msgstr "Rejestracja zablokowana: nie powiodło się wyzwanie nonce."
 
-#: includes/class-plugin.php:199
+#: includes/class-plugin.php:198
 msgid "Registration Guard:"
 msgstr "Strażnik rejestracji:"
 
-#: includes/class-plugin.php:200
+#: includes/class-plugin.php:199
 msgid "Geo-restriction is enabled but no geo-IP provider is active. Install a plugin that provides IP geolocation (e.g. WooCommerce) or disable geo-restriction."
 msgstr "Ograniczenie geograficzne jest włączone, ale żaden dostawca usług geolokalizacji IP nie jest aktywny. Zainstaluj wtyczkę zapewniającą geolokalizację IP (np. WooCommerce) lub wyłącz ograniczenie geograficzne."
 
@@ -327,7 +325,7 @@ msgstr "Adres IP"
 msgid "WooCommerce registration blocked: nonce challenge failed."
 msgstr "Rejestracja WooCommerce zablokowana: nie powiodło się wyzwanie nonce."
 
-#: integrations/class-integration-woocommerce.php:209
+#: integrations/class-integration-woocommerce.php:212
 msgid "You must verify your email address before accessing your account. Please check your inbox for the verification email."
 msgstr "Przed uzyskaniem dostępu do konta należy zweryfikować adres e-mail. Proszę sprawdzić skrzynkę odbiorczą pod kątem wiadomości e-mail z linkiem weryfikacyjnym."
 

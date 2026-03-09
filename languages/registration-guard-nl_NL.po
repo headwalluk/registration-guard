@@ -1,8 +1,5 @@
-# Copyright (C) 2026 Paul Faulkner
-# This file is distributed under the GPL v2 or later.
 msgid ""
 msgstr ""
-"Language: nl_NL\n"
 "Project-Id-Version: Registration Guard 0.6.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/registration-guard\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
@@ -12,6 +9,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2026-03-09T17:51:11+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Language: nl_NL\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: registration-guard\n"
 
@@ -68,70 +66,70 @@ msgstr "Deze verificatielink is ongeldig of is verlopen."
 msgid "Email address verified successfully."
 msgstr "E-mailadres succesvol geverifieerd."
 
-#: includes/class-email-verification.php:165
-#: includes/class-email-verification.php:176
-#: integrations/class-integration-woocommerce.php:208
-#: integrations/class-integration-woocommerce.php:219
+#: includes/class-email-verification.php:168
+#: includes/class-email-verification.php:179
+#: integrations/class-integration-woocommerce.php:211
+#: integrations/class-integration-woocommerce.php:222
 msgid "Email Verification Required"
 msgstr "E-mailverificatie vereist"
 
-#: includes/class-email-verification.php:166
+#: includes/class-email-verification.php:169
 msgid "You must verify your email address before accessing this site. Please check your inbox for the verification email."
 msgstr "U moet uw e-mailadres verifiëren voordat u toegang krijgt tot deze site. Controleer uw inbox voor de verificatie-e-mail."
 
-#: includes/class-email-verification.php:167
-#: integrations/class-integration-woocommerce.php:210
+#: includes/class-email-verification.php:170
+#: integrations/class-integration-woocommerce.php:213
 msgid "If you cannot find the email, check your spam or junk folder."
 msgstr "Als u de e-mail niet kunt vinden, controleer dan uw spam- of junkmap."
 
-#: includes/class-email-verification.php:169
-#: integrations/class-integration-woocommerce.php:212
+#: includes/class-email-verification.php:172
+#: integrations/class-integration-woocommerce.php:215
 msgid "Resend verification email"
 msgstr "Verificatie-e-mail opnieuw verzenden"
 
-#: includes/class-email-verification.php:171
-#: integrations/class-integration-woocommerce.php:214
+#: includes/class-email-verification.php:174
+#: integrations/class-integration-woocommerce.php:217
 msgid "Log out"
 msgstr "Uitloggen"
 
-#: includes/class-email-verification.php:192
+#: includes/class-email-verification.php:194
 msgid "Invalid request."
 msgstr "Ongeldig verzoek."
 
-#: includes/class-email-verification.php:193
+#: includes/class-email-verification.php:195
 msgid "Error"
 msgstr "Fout"
 
-#: includes/class-email-verification.php:201
+#: includes/class-email-verification.php:203
 msgid "This account is already verified."
 msgstr "Dit account is al geverifieerd."
 
-#: includes/class-email-verification.php:202
+#: includes/class-email-verification.php:204
 msgid "Already Verified"
 msgstr "Reeds geverifieerd"
 
-#: includes/class-email-verification.php:210
+#: includes/class-email-verification.php:212
 msgid "Please wait before requesting another verification email."
 msgstr "Wacht even voordat u nog een verificatie-e-mail aanvraagt."
 
-#: includes/class-email-verification.php:211
+#: includes/class-email-verification.php:213
 msgid "Please Wait"
 msgstr "Even geduld a.u.b."
 
-#: includes/class-email-verification.php:228
+#: includes/class-email-verification.php:230
 msgid "Verification email resent by user request."
 msgstr "Verificatie-e-mail opnieuw verzonden op verzoek van de gebruiker."
 
-#: includes/class-email-verification.php:232
+#: includes/class-email-verification.php:234
 msgid "A new verification email has been sent. Please check your inbox."
 msgstr "Er is een nieuwe verificatie-e-mail verzonden. Controleer uw inbox."
 
-#: includes/class-email-verification.php:233
+#: includes/class-email-verification.php:235
 msgid "Email Sent"
 msgstr "E-mail verzonden"
 
 #. translators: %s: site name
-#: includes/class-email-verification.php:323
+#: includes/class-email-verification.php:325
 #, php-format
 msgid "[%s] Please verify your email address"
 msgstr "[%s] Controleer uw e-mailadres"
@@ -163,11 +161,11 @@ msgstr "<strong>Fout:</strong> Beveiligingscontrole mislukt. Laad de pagina opni
 msgid "Registration blocked: nonce challenge failed."
 msgstr "Registratie geblokkeerd: nonce-uitdaging mislukt."
 
-#: includes/class-plugin.php:199
+#: includes/class-plugin.php:198
 msgid "Registration Guard:"
 msgstr "Registratiebescherming:"
 
-#: includes/class-plugin.php:200
+#: includes/class-plugin.php:199
 msgid "Geo-restriction is enabled but no geo-IP provider is active. Install a plugin that provides IP geolocation (e.g. WooCommerce) or disable geo-restriction."
 msgstr "Geografische beperking is ingeschakeld, maar er is geen geografische IP-provider actief. Installeer een plug-in die geografische IP-locatie biedt (bijvoorbeeld WooCommerce) of schakel geografische beperking uit."
 
@@ -327,7 +325,7 @@ msgstr "IP-adres"
 msgid "WooCommerce registration blocked: nonce challenge failed."
 msgstr "WooCommerce-registratie geblokkeerd: nonce-uitdaging mislukt."
 
-#: integrations/class-integration-woocommerce.php:209
+#: integrations/class-integration-woocommerce.php:212
 msgid "You must verify your email address before accessing your account. Please check your inbox for the verification email."
 msgstr "U moet uw e-mailadres verifiëren voordat u toegang krijgt tot uw account. Controleer uw inbox voor de verificatie-e-mail."
 
