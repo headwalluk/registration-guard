@@ -87,7 +87,7 @@ class Plugin {
 	 */
 	public function check_first_run(): void {
 		if ( false === get_option( OPT_VERSION ) ) {
-			$defaults = rg_get_default_settings();
+			$defaults = regguard_get_default_settings();
 
 			foreach ( $defaults as $key => $value ) {
 				if ( false === get_option( $key ) ) {
@@ -141,7 +141,7 @@ class Plugin {
 			return;
 		}
 
-		if ( rg_is_geo_enabled() && ! class_exists( 'WooCommerce' ) ) {
+		if ( regguard_is_geo_enabled() && ! class_exists( 'WooCommerce' ) ) {
 			printf(
 				'<div class="notice notice-warning"><p><strong>%s</strong> %s</p></div>',
 				esc_html__( 'Registration Guard:', 'registration-guard' ),

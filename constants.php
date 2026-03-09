@@ -20,9 +20,9 @@ defined( 'ABSPATH' ) || die();
  *
  * @since 1.0.0
  */
-const META_EMAIL_VERIFIED     = '_rg_email_verified';
-const META_VERIFICATION_TOKEN = '_rg_verification_token';
-const META_TOKEN_CREATED      = '_rg_token_created';
+const META_EMAIL_VERIFIED     = '_regguard_email_verified';
+const META_VERIFICATION_TOKEN = '_regguard_verification_token';
+const META_TOKEN_CREATED      = '_regguard_token_created';
 
 // =============================================================================
 // Option Keys (wp_options)
@@ -104,8 +104,8 @@ const RATE_LIMIT_NONCE_WINDOW = 300; // 5 minutes in seconds.
  *
  * @since 1.0.0
  */
-const TRANSIENT_NONCE_RATE      = 'rg_nonce_rate_';
-const TRANSIENT_RESEND_COOLDOWN = 'rg_resend_cooldown_';
+const TRANSIENT_NONCE_RATE      = 'regguard_nonce_rate_';
+const TRANSIENT_RESEND_COOLDOWN = 'regguard_resend_cooldown_';
 
 // =============================================================================
 // Nonce / AJAX
@@ -127,7 +127,7 @@ const NONCE_EXPIRY = 300; // 5 minutes in seconds.
  *
  * @since 1.0.0
  */
-const QUERY_VERIFY = 'rg_verify';
+const QUERY_VERIFY = 'regguard_verify';
 
 // =============================================================================
 // Cron Hooks
@@ -138,8 +138,8 @@ const QUERY_VERIFY = 'rg_verify';
  *
  * @since 1.0.0
  */
-const CRON_CLEANUP_ACCOUNTS = 'rg_cleanup_unverified_accounts';
-const CRON_PRUNE_LOG        = 'rg_prune_event_log';
+const CRON_CLEANUP_ACCOUNTS = 'regguard_cleanup_unverified_accounts';
+const CRON_PRUNE_LOG        = 'regguard_prune_event_log';
 
 // =============================================================================
 // Account Cleanup
@@ -162,7 +162,7 @@ const CLEANUP_SAFE_ROLES = array( 'subscriber', 'customer' );
  *
  * @since 1.0.0
  */
-const DB_TABLE_LOG = 'rg_log';
+const DB_TABLE_LOG = 'regguard_log';
 
 /**
  * Log retention period in days.

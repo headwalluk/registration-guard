@@ -43,8 +43,8 @@ Registration Guard schedules two WP-Cron tasks:
 
 | Hook | Schedule | Purpose |
 |------|----------|---------|
-| `rg_cleanup_unverified_accounts` | Hourly | Delete unverified accounts past the verification window |
-| `rg_prune_event_log` | Daily | Remove log entries older than 30 days |
+| `regguard_cleanup_unverified_accounts` | Hourly | Delete unverified accounts past the verification window |
+| `regguard_prune_event_log` | Daily | Remove log entries older than 30 days |
 
 ### Low-Traffic Sites
 
@@ -76,7 +76,7 @@ Registration Guard creates one custom table on activation:
 
 | Table | Purpose |
 |-------|---------|
-| `{prefix}rg_log` | Event log (registrations, verifications, blocks, deletions) |
+| `{prefix}regguard_log` | Event log (registrations, verifications, blocks, deletions) |
 
 The table is created via `dbDelta()` and uses standard WordPress charset/collation settings.
 
@@ -86,9 +86,9 @@ Log entries are automatically pruned daily (entries older than 30 days are delet
 
 Registration Guard also stores data in WordPress core tables:
 
-- **`wp_usermeta`:** `_rg_email_verified`, `_rg_verification_token`, `_rg_token_created` (per-user verification state)
+- **`wp_usermeta`:** `_regguard_email_verified`, `_regguard_verification_token`, `_regguard_token_created` (per-user verification state)
 - **`wp_options`:** Settings prefixed with `regguard_` (plugin configuration)
-- **Transients:** Rate limiting data prefixed with `rg_` (auto-expiring)
+- **Transients:** Rate limiting data prefixed with `regguard_` (auto-expiring)
 
 ---
 
@@ -97,9 +97,9 @@ Registration Guard also stores data in WordPress core tables:
 When the plugin is deleted (not just deactivated), the `uninstall.php` script runs and removes:
 
 - All `regguard_*` options from `wp_options`
-- All `_rg_*` user meta from `wp_usermeta`
-- All `rg_*` transients
-- The `{prefix}rg_log` custom table
+- All `_regguard_*` user meta from `wp_usermeta`
+- All `regguard_*` transients
+- The `{prefix}regguard_log` custom table
 - All scheduled cron hooks
 
 **Deactivation** only unschedules the cron hooks. All data is preserved for reactivation.

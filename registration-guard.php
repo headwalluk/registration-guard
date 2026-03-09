@@ -39,7 +39,7 @@ require_once REGISTRATION_GUARD_PATH . 'includes/class-settings.php';
  * @since 1.0.0
  */
 function registration_guard_activate(): void {
-	$defaults = Registration_Guard\rg_get_default_settings();
+	$defaults = Registration_Guard\regguard_get_default_settings();
 
 	foreach ( $defaults as $key => $value ) {
 		if ( false === get_option( $key ) ) {

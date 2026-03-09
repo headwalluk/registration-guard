@@ -37,7 +37,7 @@ No build step, test framework, or package.json. Code quality is enforced via php
 **Nonce Challenge:**
 - `wp_enqueue_scripts` — enqueue `nonce-challenge.js` on pages with registration forms
 - `register_form` — inject hidden nonce field into WordPress registration form
-- `wp_ajax_nopriv_rg_nonce` — admin-ajax endpoint for nonce generation (with referer validation)
+- `wp_ajax_nopriv_regguard_nonce` — admin-ajax endpoint for nonce generation (with referer validation)
 - `registration_errors` — validate nonce on WordPress registration submission
 
 **Email Double Opt-In:**
@@ -47,12 +47,12 @@ No build step, test framework, or package.json. Code quality is enforced via php
   - `defined( 'REST_REQUEST' ) && REST_REQUEST` — REST API (including WooCommerce REST)
   - `did_action( 'woocommerce_checkout_process' ) > 0` — checkout registration
   - `registration_guard_skip_verification` filter returns true — third-party opt-out
-- `init` — handle `?rg_verify={user_id}:{token}` verification link clicks
+- `init` — handle `?regguard_verify={user_id}:{token}` verification link clicks
 - `admin_init` — `wp_die()` interstitial for unverified users accessing wp-admin
 
 **Account Cleanup:**
-- `rg_cleanup_unverified_accounts` (hourly cron) — delete expired unverified accounts (subscriber/customer roles only, batch of 50)
-- `rg_prune_event_log` (daily cron) — prune log entries older than 30 days
+- `regguard_cleanup_unverified_accounts` (hourly cron) — delete expired unverified accounts (subscriber/customer roles only, batch of 50)
+- `regguard_prune_event_log` (daily cron) — prune log entries older than 30 days
 
 **WooCommerce (conditional):**
 - `woocommerce_register_form` — inject hidden nonce field (My Account only, NOT checkout)
@@ -69,12 +69,12 @@ No build step, test framework, or package.json. Code quality is enforced via php
 |------|---------|
 | `registration-guard.php` | Main plugin file, activation/deactivation hooks, class loading |
 | `constants.php` | All constants: meta keys, option keys, defaults, transient keys, log event types, DB table name |
-| `functions.php` | Helper functions: config getters, `rg_get_now_formatted()` |
+| `functions.php` | Helper functions: config getters, `regguard_get_now_formatted()` |
 | `includes/class-plugin.php` | Main orchestrator: hook registration, conditional WooCommerce loading |
 | `includes/class-nonce-challenge.php` | Admin-ajax nonce endpoint (with referer check), form field injection, validation |
 | `includes/class-email-verification.php` | Double opt-in: token generation, verification links, resend handler, interstitial |
 | `includes/class-account-cleanup.php` | Hourly cron: delete expired unverified accounts in batches |
-| `includes/class-logger.php` | Custom table `{prefix}rg_log`, event logging, daily pruning cron |
+| `includes/class-logger.php` | Custom table `{prefix}regguard_log`, event logging, daily pruning cron |
 | `includes/class-geo-restriction.php` | Country allow/block list via WC_Geolocation |
 | `includes/class-settings.php` | Admin settings page under Settings menu (WordPress Settings API) |
 | `includes/class-woocommerce.php` | WooCommerce-specific hooks, conditionally loaded |
@@ -83,14 +83,14 @@ No build step, test framework, or package.json. Code quality is enforced via php
 
 ### Data Storage
 
-- **User meta** for per-user verification state (`_rg_email_verified`, `_rg_verification_token`, `_rg_token_created`)
+- **User meta** for per-user verification state (`_regguard_email_verified`, `_regguard_verification_token`, `_regguard_token_created`)
 - **`wp_options`** for plugin settings (all prefixed `regguard_`)
-- **Transients** for rate limiting (nonce endpoint per IP, resend cooldown per user)
-- **Custom table** `{prefix}rg_log` for event logging
+- **Transients** for rate limiting (all prefixed `regguard_`)
+- **Custom table** `{prefix}regguard_log` for event logging
 
 ### Verification Meta States
 
-Three-state model for `_rg_email_verified`:
+Three-state model for `_regguard_email_verified`:
 - **No meta exists** → pre-existing/legacy user, treat as verified (never block)
 - **`true`** → explicitly verified (clicked link) or auto-approved (checkout, admin-created, CLI, REST)
 - **`false`** → pending verification, block wp-admin and My Account access
@@ -101,7 +101,7 @@ Three-state model for `_rg_email_verified`:
 - **Nonce endpoint rate limiting:** Per-IP via transients
 - **Token generation:** `bin2hex( random_bytes( 16 ) )` for URL-safe tokens
 - **Token storage:** Hashed with `wp_hash_password()`, verified with `wp_check_password()` — never store plaintext
-- **Resend rate limiting:** Single cooldown transient `rg_resend_cooldown_{user_id}` (default 5 min)
+- **Resend rate limiting:** Single cooldown transient `regguard_resend_cooldown_{user_id}` (default 5 min)
 - **Account cleanup safety:** Only delete `subscriber` and `customer` roles — never admins, editors, shop_managers
 
 ## Code Conventions
@@ -173,7 +173,7 @@ public function render_field_enabled(): void {
 
 ### Template Variables
 
-Template variables in view files must be prefixed with `rg_` to comply with WordPress global naming standards (phpcs requirement).
+Template variables in view files must be prefixed with `regguard_` to comply with WordPress global naming standards (phpcs requirement).
 
 ### Email Format
 
@@ -205,19 +205,19 @@ Format: `type: brief description` where type is one of: `feat:`, `fix:`, `chore:
 </rule>
 ```
 
-Note: `rg_` is NOT a valid phpcs prefix (too short). Use `regguard_` or `registration_guard_` for function/variable prefixes. The `rg_` prefix is used for internal identifiers (transient keys, meta keys, cron hooks) which are string values, not PHP symbols checked by phpcs.
+All global-scope identifiers use the `regguard_` prefix consistently — functions, transient keys, meta keys, cron hooks, query parameters, and database table names.
 
 ## Key Decisions
 
 Full decision log in `dev-notes/00-project-tracker.md`. Summary:
 
 - **Nonce endpoint:** admin-ajax.php (not REST API) with referer validation
-- **Logging:** Custom table `{prefix}rg_log`, daily pruning, 30-day retention
+- **Logging:** Custom table `{prefix}regguard_log`, daily pruning, 30-day retention
 - **Interstitials:** `wp_die()` with contextual message (HTTP 403)
 - **Checkout:** Completely untouched — no JS, no nonce, no validation. Auto-approve user.
 - **Existing users:** No meta = verified (no retroactive changes on activation)
 - **Email format:** Plain text only (permanent)
-- **Skipped contexts:** Admin-created, WP-CLI, REST API, checkout — all write `_rg_email_verified = true`
+- **Skipped contexts:** Admin-created, WP-CLI, REST API, checkout — all write `_regguard_email_verified = true`
 
 ## Developer Documentation
 

@@ -90,4 +90,4 @@ This is usually an email delivery issue, not a Registration Guard issue. Check:
 
 ### Verified customers still being blocked
 
-If a customer verified their email but is still seeing the interstitial, check their user meta in the database. The `_rg_email_verified` meta value should be `true`. If it's missing or `false`, you can manually set it to `true` via the WordPress admin or WP-CLI.
+If a customer verified their email but is still seeing the interstitial, check their user meta in the database. The `_regguard_email_verified` meta value should be `true`. If it's missing or `false`, you can manually set it to `true` via the WordPress admin or WP-CLI.
