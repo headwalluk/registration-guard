@@ -1,6 +1,10 @@
 .git
 .github
 .distignore
+build
 dev-notes
+docs
+CHANGELOG.md
 CLAUDE.md
+README.md
 phpcs.xml
