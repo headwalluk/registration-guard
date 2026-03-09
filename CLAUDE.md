@@ -69,7 +69,7 @@ No build step, test framework, or package.json. Code quality is enforced via php
 |------|---------|
 | `registration-guard.php` | Main plugin file, activation/deactivation hooks, class loading |
 | `constants.php` | All constants: meta keys, option keys, defaults, transient keys, log event types, DB table name |
-| `functions.php` | Helper functions: config getters, `regguard_get_now_formatted()` |
+| `functions-private.php` | Namespaced helper functions: config getters, `get_now_formatted()`, `get_ip_address()` |
 | `includes/class-plugin.php` | Main orchestrator: hook registration, conditional WooCommerce loading |
 | `includes/class-nonce-challenge.php` | Admin-ajax nonce endpoint (with referer check), form field injection, validation |
 | `includes/class-email-verification.php` | Double opt-in: token generation, verification links, resend handler, interstitial |

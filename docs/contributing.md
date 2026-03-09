@@ -108,7 +108,7 @@ This prevents whitespace bleeding into attributes and values, and makes the code
 registration-guard/
 ├── registration-guard.php       # Main plugin file, bootstrap
 ├── constants.php                # All constants
-├── functions.php                # Helper functions
+├── functions-private.php         # Namespaced helper functions
 ├── uninstall.php                # Clean data removal
 ├── phpcs.xml                    # Coding standards config
 ├── CLAUDE.md                    # AI assistant instructions

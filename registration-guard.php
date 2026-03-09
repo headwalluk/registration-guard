@@ -26,7 +26,7 @@ define( 'REGISTRATION_GUARD_URL', plugin_dir_url( __FILE__ ) );
 define( 'REGISTRATION_GUARD_BASENAME', plugin_basename( __FILE__ ) );
 
 require_once REGISTRATION_GUARD_PATH . 'constants.php';
-require_once REGISTRATION_GUARD_PATH . 'functions.php';
+require_once REGISTRATION_GUARD_PATH . 'functions-private.php';
 
 require_once REGISTRATION_GUARD_PATH . 'includes/class-plugin.php';
 require_once REGISTRATION_GUARD_PATH . 'includes/class-settings.php';
@@ -39,7 +39,7 @@ require_once REGISTRATION_GUARD_PATH . 'includes/class-settings.php';
  * @since 1.0.0
  */
 function registration_guard_activate(): void {
-	$defaults = Registration_Guard\regguard_get_default_settings();
+	$defaults = Registration_Guard\get_default_settings();
 
 	foreach ( $defaults as $key => $value ) {
 		if ( false === get_option( $key ) ) {

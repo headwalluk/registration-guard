@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || die();
  *
  * @return array<string, mixed> Default settings keyed by option name.
  */
-function regguard_get_default_settings(): array {
+function get_default_settings(): array {
 	return array(
 		OPT_NONCE_ENABLED       => DEF_NONCE_ENABLED,
 		OPT_NONCE_MIN_DELAY     => DEF_NONCE_MIN_DELAY,
@@ -45,7 +45,7 @@ function regguard_get_default_settings(): array {
  *
  * @return bool True if enabled.
  */
-function regguard_is_nonce_challenge_enabled(): bool {
+function is_nonce_challenge_enabled(): bool {
 	return (bool) filter_var( get_option( OPT_NONCE_ENABLED, DEF_NONCE_ENABLED ), FILTER_VALIDATE_BOOLEAN );
 }
 
@@ -56,7 +56,7 @@ function regguard_is_nonce_challenge_enabled(): bool {
  *
  * @return bool True if enabled.
  */
-function regguard_is_double_optin_enabled(): bool {
+function is_double_optin_enabled(): bool {
 	return (bool) filter_var( get_option( OPT_DOUBLE_OPTIN, DEF_DOUBLE_OPTIN ), FILTER_VALIDATE_BOOLEAN );
 }
 
@@ -67,7 +67,7 @@ function regguard_is_double_optin_enabled(): bool {
  *
  * @return bool True if enabled.
  */
-function regguard_is_geo_enabled(): bool {
+function is_geo_enabled(): bool {
 	return (bool) filter_var( get_option( OPT_GEO_ENABLED, DEF_GEO_ENABLED ), FILTER_VALIDATE_BOOLEAN );
 }
 
@@ -84,7 +84,7 @@ function regguard_is_geo_enabled(): bool {
  *
  * @return string Formatted date/time string.
  */
-function regguard_get_now_formatted( string $format = 'Y-m-d H:i:s T' ): string {
+function get_now_formatted( string $format = 'Y-m-d H:i:s T' ): string {
 	$now = new \DateTime( 'now', wp_timezone() );
 	return $now->format( $format );
 }
@@ -96,7 +96,7 @@ function regguard_get_now_formatted( string $format = 'Y-m-d H:i:s T' ): string 
  *
  * @return string IP address, or empty string if unavailable.
  */
-function regguard_get_ip_address(): string {
+function get_ip_address(): string {
 	$ip = '';
 
 	if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
@@ -123,7 +123,7 @@ function regguard_get_ip_address(): string {
  *
  * @return string Full table name.
  */
-function regguard_get_log_table_name(): string {
+function get_log_table_name(): string {
 	global $wpdb;
 	return $wpdb->prefix . DB_TABLE_LOG;
 }
