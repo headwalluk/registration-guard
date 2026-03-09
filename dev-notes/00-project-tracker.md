@@ -1,9 +1,9 @@
 # Project Tracker
 
-**Version:** 0.1.0-dev
+**Version:** 0.2.0-dev
 **Last Updated:** 2026-03-09
-**Current Phase:** M0 (Planning & Requirements)
-**Overall Progress:** 0%
+**Current Phase:** M2 (Event Logger)
+**Overall Progress:** 15%
 
 ---
 
@@ -16,31 +16,31 @@ Registration Guard is a lightweight WordPress plugin that layers three defences 
 ## Active TODO Items
 
 - [x] Resolve open questions
-- [ ] Create decision log (`dev-notes/01-decisions.md`)
-- [ ] Create `CLAUDE.md` with project-specific instructions
-- [ ] Finalise requirement docs before scaffolding code
+- [x] Create decision log (`dev-notes/01-decisions.md`)
+- [x] Create `CLAUDE.md` with project-specific instructions
+- [x] Finalise requirement docs before scaffolding code
 
 ---
 
 ## Milestones
 
-### M0: Planning & Requirements
+### M0: Planning & Requirements ✓
 
 - [x] Resolve all open questions (see Decision Log below)
-- [ ] Create `dev-notes/01-decisions.md` with full decision log
-- [ ] Create `CLAUDE.md` with project-specific instructions
-- [ ] Review Quick 2FA reference patterns for reuse
+- [x] Create `dev-notes/01-decisions.md` with full decision log
+- [x] Create `CLAUDE.md` with project-specific instructions
+- [x] Review Quick 2FA reference patterns for reuse
 
-### M1: Scaffold & Bootstrap
+### M1: Scaffold & Bootstrap ✓
 
-- [ ] Create `registration-guard.php` (plugin header, bootstrap, class autoloading)
-- [ ] Create `constants.php` (all option keys, meta keys, defaults, transient key patterns, DB table name)
-- [ ] Create `functions.php` (helper functions, config getters, `regguard_get_now_formatted()`)
-- [ ] Create `phpcs.xml` (WordPress standards, prefix config for `regguard`/`registration_guard`/`Registration_Guard`/`REGISTRATION_GUARD`)
-- [ ] Create `includes/class-plugin.php` (singleton orchestrator, hook registration, conditional WooCommerce loading)
-- [ ] Create `includes/class-settings.php` (empty shell — settings page registered under Settings menu)
-- [ ] Verify bootstrap loads cleanly (no errors on activation)
-- [ ] Run `phpcs` — clean pass
+- [x] Create `registration-guard.php` (plugin header, bootstrap, class loading)
+- [x] Create `constants.php` (all option keys, meta keys, defaults, transient key patterns, DB table name)
+- [x] Create `functions-private.php` (namespaced helper functions, config getters)
+- [x] Create `phpcs.xml` (WordPress standards, prefix config)
+- [x] Create `includes/class-plugin.php` (orchestrator, hook registration, conditional WooCommerce loading)
+- [x] Create `includes/class-settings.php` (settings page with three sections, nine fields)
+- [x] Verify bootstrap loads cleanly (no errors on activation)
+- [x] Run `phpcs` — clean pass
 
 ### M2: Event Logger
 

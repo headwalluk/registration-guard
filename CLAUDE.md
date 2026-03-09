@@ -30,7 +30,7 @@ No build step, test framework, or package.json. Code quality is enforced via php
 
 ### Entry Point & Initialisation
 
-`registration-guard.php` → `registration_guard_run()` → `Plugin::instance()->run()` (singleton pattern). Classes are manually loaded (no autoloader). WooCommerce-specific class loaded conditionally when `class_exists( 'WooCommerce' )`.
+`registration-guard.php` → `registration_guard_run()` → `new Plugin()` stored in `global $regguard_plugin`. Access via `Registration_Guard\get_plugin()`. Classes are manually loaded (no autoloader). WooCommerce-specific class loaded conditionally when `class_exists( 'WooCommerce' )`.
 
 ### Hook Strategy
 

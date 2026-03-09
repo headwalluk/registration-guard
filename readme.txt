@@ -4,7 +4,7 @@ Tags: security, registration, anti-spam, bot-protection, woocommerce
 Requires at least: 6.0
 Tested up to: 6.7
 Requires PHP: 8.0
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -110,11 +110,20 @@ Yes. Registration Guard provides a `registration_guard_skip_verification` filter
 
 == Changelog ==
 
+= 0.2.0 =
+* Bootstrap and settings page implementation
+* Main plugin class, constants, helper functions
+* Admin settings page with three sections (nonce challenge, double opt-in, geo-restriction)
+* Activation/deactivation hooks with cron scheduling
+
 = 0.1.0 =
 * Initial development release
 * Project scaffolding and documentation
 
 == Upgrade Notice ==
+
+= 0.2.0 =
+Bootstrap and settings page implementation.
 
 = 0.1.0 =
 Initial development release.

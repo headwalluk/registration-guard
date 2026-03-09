@@ -13,6 +13,18 @@ namespace Registration_Guard;
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || die();
 
+/**
+ * Get the main plugin instance.
+ *
+ * @since 1.0.0
+ *
+ * @return Plugin The plugin instance.
+ */
+function get_plugin(): Plugin {
+	global $regguard_plugin;
+	return $regguard_plugin;
+}
+
 // =============================================================================
 // Settings & Configuration Functions
 // =============================================================================

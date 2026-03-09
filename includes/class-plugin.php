@@ -21,35 +21,12 @@ defined( 'ABSPATH' ) || die();
 class Plugin {
 
 	/**
-	 * Single instance of the class.
-	 *
-	 * @since 1.0.0
-	 * @var ?Plugin
-	 */
-	private static ?Plugin $instance = null;
-
-	/**
 	 * Plugin settings instance.
 	 *
 	 * @since 1.0.0
 	 * @var Settings
 	 */
 	private Settings $settings;
-
-	/**
-	 * Get single instance of the class.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return Plugin
-	 */
-	public static function instance(): Plugin {
-		if ( null === self::$instance ) {
-			self::$instance = new self();
-		}
-
-		return self::$instance;
-	}
 
 	/**
 	 * Initialize hooks and load dependencies.
@@ -121,11 +98,7 @@ class Plugin {
 			'before_woocommerce_init',
 			function (): void {
 				if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-					\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
-						'custom_order_tables',
-						REGISTRATION_GUARD_FILE,
-						true
-					);
+					\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', REGISTRATION_GUARD_FILE, true );
 				}
 			}
 		);
